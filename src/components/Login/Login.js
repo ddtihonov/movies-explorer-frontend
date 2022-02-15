@@ -1,8 +1,10 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import logo from '../../images/logo.svg'
+import './Login.css'
 
-
-export default function Login ({setCurrentRoute,  onLogin}) {
+export default function Login () {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -18,45 +20,53 @@ export default function Login ({setCurrentRoute,  onLogin}) {
         function handleSubmit(evt) {
             evt.preventDefault();
         
-            onLogin({ password, email });
         }
 
-    useEffect(() => {
-        setCurrentRoute('/signin');
-    }, []);
+    //useEffect(() => {
+        //setCurrentRoute('/signin');
+    //}, []);
 
     
         return(
-        <div className="login">
-            <h2 className="login__title">Вход</h2>
-            <form className="login__form" onSubmit={handleSubmit}>
-                <label className="login__label">
-                    <input className="login__input"
-                    type="email" 
-                    name="email" 
-                    id="email-input" placeholder="Email" 
-                    minLength="6" maxLength="20" 
-                    required
-                    value={email}
-                    onChange={handleChangeEmail}
-                    />
-                    <span className="login__input-error email-input-error form__input-error"></span>
-                </label>
-                <label className="login__label">
-                    <input className="login__input"
-                    type="password" 
-                    name="password" 
-                    id="password-input" 
-                    placeholder="Пароль"  
-                    minLength="6" 
-                    maxLength="20" required
-                    value={password}
-                    onChange={handleChangePassword}
-                    />
-                    <span className="login__input-error password-input-error form__input-error"></span>
-                </label>
-                <button className="login__button" type="submit">Войти</button>
-            </form>
-        </div>
+        <section className="login">
+            <div className="login__container">
+                <img className="login__image" src={logo} alt="смайл"/>
+                <h2 className="login__title">Рады видеть!</h2>
+                <form className="login__form" onSubmit={handleSubmit}>
+                    <label className="login__label">E-mail
+                        <input className="login__input"
+                        type="email" 
+                        name="email"
+                        autoComplete="on" 
+                        id="email-input" 
+                        minLength="6" maxLength="20" 
+                        required
+                        value={email || ''}
+                        onChange={handleChangeEmail}
+                        />
+                        <span className="login__input-error email-input-error form__input-error"></span>
+                    </label>
+                    <label className="login__label">Пароль
+                        <input className="login__input"
+                        type="password" 
+                        name="password"
+                        autoComplete="on" 
+                        id="password-input"
+                        minLength="6" 
+                        maxLength="20" required
+                        value={password}
+                        onChange={handleChangePassword}
+                        />
+                        <span className="login__input-error password-input-error form__input-error"></span>
+                    </label>
+                    <button className="login__button" type="submit">Войти</button>
+                    <div className="login__box">
+                        <p className="login__text">Ещё не зарегистрированы?</p>
+                        <Link to='/signup' className='login__registrations' target='_self'>Регистрация</Link>
+                    </div>
+                    
+                </form>
+            </div>
+        </section>
     )
 }

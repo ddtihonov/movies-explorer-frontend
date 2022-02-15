@@ -1,16 +1,16 @@
 .project{
-    max-width: 100%;
+    width: 100%;
     background-color: #202020;
     margin: 0 auto;
     display: flex;
 }
 
 .project__container{
-    max-width: 1280px;
+    width: 1140px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    padding: 110px 70px;
+    padding: 110px 0 125px;
 }
 
 .project__title{
@@ -97,9 +97,16 @@
     color: #000000
 }
 
+@media (max-width: 1280px){
+    .project__container{
+        max-width: calc(100% - 140px)
+    }
+}
+
 @media (max-width: 1020px){
     .project__container{
-        padding: 90px 50px;
+        max-width: calc(100% - 100px);
+        padding: 90px 0;
     }
     }
 
@@ -145,7 +152,8 @@
     @media (max-width: 425px){
 
         .project__container{
-            padding: 70px 18px;
+            max-width: calc(100% - 36px);
+            padding: 70px 0;
         }
 
         .project__title{

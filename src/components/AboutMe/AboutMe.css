@@ -1,0 +1,53 @@
+.me{
+    width: 100%;
+    background-color: #202020;
+    margin: 0 auto;
+    display: flex;
+}
+
+.me__container{
+    width: 1140px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 110px 0;
+}
+
+.me__title{
+    font-size: 22px;
+    line-height: 27px;
+    font-weight: 400;
+    margin: 0 0 23px 0;
+}
+
+.me__line{
+    width: 100%;
+    border-bottom: 1px solid #DADADA;
+    margin-bottom: 66px;
+}
+
+.me__article{
+    display: flex;
+    justify-content: space-between;
+}
+
+.me__image{
+    width: 270px;
+    height: 327px;
+    border-radius: 10px;
+}
+
+.me__subtitle{
+    font-size: 50px;
+    line-height: 58px;
+    font-weight: 400;
+    margin: 0;
+    letter-spacing: -0.04em;
+}
+
+.me__about{
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: 500;
+    margin: 0;
+}

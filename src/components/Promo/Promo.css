@@ -1,17 +1,17 @@
 .promo{
-    max-width: 100%;
+    width: 100%;
     background-color: #073042;
     margin: 0 auto;
     display: flex;
 }
 
 .promo__container{
-    width: 1280px;
+    width: 1140px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 75px 70px;
+    padding: 75px 0;
 }
 
 .promo__box{
@@ -54,8 +54,15 @@
     padding: 0;
 }
 
+@media (max-width: 1280px){
+    .promo__container{
+        max-width: calc(100% - 140px)
+    }
+}
+
 @media (max-width: 1020px){
     .promo__container{
+        max-width: calc(100% - 88px);
         flex-direction: column-reverse;
         align-items: center;
         padding: 140px  5px 76px;
@@ -85,6 +92,7 @@
 
 @media (max-width: 425px){
     .promo__container{
+        max-width: calc(100% - 20px);
         padding: 70px  5px 30px;
     }
 

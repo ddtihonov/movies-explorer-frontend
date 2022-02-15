@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import './Register.css'
 
-export default function Register ({setCurrentRoute, onRegister }) {
+export default function Register () {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -19,13 +20,12 @@ export default function Register ({setCurrentRoute, onRegister }) {
     function handleSubmit(evt) {
         evt.preventDefault();
     
-        onRegister({ password, email });
     }
     
 
-    useEffect(() => {
-        setCurrentRoute('/signup');
-    }, []);
+    //useEffect(() => {
+        //setCurrentRoute('/signup');
+    //}, []);
 
         return(
         <div className="register">
