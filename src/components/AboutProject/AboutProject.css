@@ -18,6 +18,7 @@
     line-height: 27px;
     font-weight: 400;
     margin: 0 0 23px 0;
+    letter-spacing: -0.04em;
 }
 
 .project__line{
@@ -46,6 +47,7 @@
     line-height: 24px;
     font-weight: 400;
     margin: 0 0 26px 0;
+    letter-spacing: -0.04em;
 }
 
 .project__list-text{

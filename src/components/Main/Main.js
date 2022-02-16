@@ -14,6 +14,7 @@ export default function Main() {
         <Header/>
         <Promo/>
         <AboutProject/>
+        <Techs/>
         <AboutMe/>
         <Footer/>
     </section>

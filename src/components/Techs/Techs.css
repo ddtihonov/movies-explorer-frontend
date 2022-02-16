@@ -6,11 +6,11 @@
 }
 
 .techs__container{
-    width: calc(100% - 140px);
+    width: 1140px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    padding: 100px 70px;
+    padding: 100px 0;
 }
 
 .techs__title{
@@ -48,17 +48,17 @@
 
 .techs__list{
     max-width: 690px;
+    margin: 0 auto;
     list-style: none;
     padding: 0;
-    margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+    grid-template-columns: repeat(auto-fit, 90px);
     gap: 10px;
     justify-content: center;
 }
 
 .techs__item{
-    width: 90px;
+    width: 100%;
     height: 60px;
     background-color: #303030;
     border-radius: 10px;
@@ -71,35 +71,75 @@
     justify-content: center;
 }
 
+@media (max-width: 1280px){
+    .techs__container{
+        width: calc(100% - 140px)
+    }
+}
+
 @media (max-width: 1020px){
     .techs__container{
         width: calc(100% - 100px);
-        padding: 90px 50px;
+        padding: 90px 0;
     }
     .techs__item{
-            max-width: 84px;
             height: 57px;
             font-size: 12px;
             line-height: 15px;
-        }    
-    }
+        }
+        
+        .techs__list{
+            grid-template-columns: repeat(auto-fit, 84px);
+        }
+}
 
     @media (max-width: 768px){
-        .techs__container{
-            max-width: 668px;
-        }
-
         .techs__line{
             margin-bottom: 80px;
         }
+
         .techs__text{
             max-width: 460px;
             font-size: 12px;
             line-height: 18px;
             margin: 22px auto 83px;
         }
+
+        .techs__list{
+            width: 100%;
+        }
+}
+
+    @media (max-width: 425px){
+
+        .techs__title{
+            font-size: 18px;
+            line-height: 22px;
+            font-weight: 400;
+            margin: 0 0 28px 0;
         }
 
-        @media (max-width: 425px){
+        .techs__line{
+            margin-bottom: 60px;
+        }
 
-            }    
+        .techs__subtitle{
+            font-size: 30px;
+            line-height: 36px;
+        }
+
+        .techs__text{
+            font-size: 11px;
+            line-height: 16px;
+            margin: 24px auto 50px;
+        }
+
+        .techs__container{
+            width: calc(100% - 36px);
+            padding: 70px 0;
+        }
+
+        .techs__list{
+            width: 90%;
+        }
+    }    

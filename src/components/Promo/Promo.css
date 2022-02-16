@@ -52,6 +52,13 @@
     border-radius: 3px;
     border: 1px solid #FFF;
     padding: 0;
+    transition: 300ms;
+}
+
+.promo__button:hover{
+    cursor: pointer;
+    opacity: 0.7;
+    transition: 300ms;
 }
 
 @media (max-width: 1280px){
