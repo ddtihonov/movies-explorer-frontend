@@ -15,8 +15,8 @@ export default function  AboutMe () {
                         <p className='me__about'>Фронтенд-разработчик, 45 лет</p>
                         <p className='me__text'>Я живу в Москве, у меня есть высшее экономическое образование и многолетний опыт работы в банковской сфере. Мне нравится путешествовать, встречаться с друзьями, заниматься саморазвитием, смотреть хорошее кино и слушать книги.</p>
                         <div className='me__links'>
-                            <a className='me__link' href='https://www.facebook.com/ddtikhonov' target='_blank' rel='noreferrer'>Facebook</a>
-                            <a className='me__link' href='https://github.com/ddtihonov' target='_blank' rel='noreferrer'>Github</a>
+                            <a className='me__link' href='https://www.facebook.com/ddtikhonov' target='_blank' rel="noopener noreferrer">Facebook</a>
+                            <a className='me__link' href='https://github.com/ddtihonov' target='_blank' rel="noopener noreferrer">Github</a>
                         </div>
                     </div>
                     <img className="me__image" src={me} alt="человек"/>
@@ -25,19 +25,19 @@ export default function  AboutMe () {
                 <ul className='me__list'>
                     <li className='me__item'>
                         <p className='me__list-text'>Статичный сайт</p>
-                        <a className='me__list-link'href='https://www.facebook.com/ddtikhonov' target='_blank' rel='noreferrer' >
+                        <a className='me__list-link'href='https://www.facebook.com/ddtikhonov' target='_blank' rel="noopener noreferrer">
                             <img className="me__list-image" src={sagitta} alt="стрелка"/>
                         </a>
                     </li>
                     <li className='me__item'>
                         <p className='me__list-text'>Адаптивный сайт</p>
-                        <a className='me__list-link' href='https://ddtihonov.github.io/russian-travel/index.html' target='_blank' rel='noreferrer' >
+                        <a className='me__list-link' href='https://ddtihonov.github.io/russian-travel/index.html' target='_blank' rel="noopener noreferrer" >
                             <img className="me__list-image" src={sagitta} alt="стрелка"/>
                         </a>
                     </li>
                     <li className='me__item'>
                         <p className='me__list-text'>Одностраничное приложение</p>
-                        <a className='me__list-link' href='https://ddtihonov.github.io/react-mesto-auth' target='_blank' rel='noreferrer'>
+                        <a className='me__list-link' href='https://ddtihonov.github.io/react-mesto-auth' target='_blank' rel="noopener noreferrer">
                             <img className="me__list-image" src={sagitta} alt="стрелка"/>
                         </a>
                     </li>

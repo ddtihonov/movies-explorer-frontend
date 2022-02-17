@@ -1,10 +1,10 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg'
 import './Login.css'
 
-export default function Login () {
+export default function Login ({onLogin}) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -17,15 +17,10 @@ export default function Login () {
         setPassword(evt.target.value);
     }
 
-        function handleSubmit(evt) {
-            evt.preventDefault();
-        
-        }
-
-    //useEffect(() => {
-        //setCurrentRoute('/signin');
-    //}, []);
-
+    function handleSubmit(evt) {
+        evt.preventDefault();
+        onLogin();
+    }
     
         return(
         <section className="login">
@@ -60,12 +55,11 @@ export default function Login () {
                         <span className="login__input-error password-input-error form__input-error"></span>
                     </label>
                     <button className="login__button" type="submit">Войти</button>
-                    <div className="login__box">
-                        <p className="login__text">Ещё не зарегистрированы?</p>
-                        <Link to='/signup' className='login__registrations' target='_self'>Регистрация</Link>
-                    </div>
-                    
                 </form>
+                <div className="login__box">
+                    <p className="login__text">Ещё не зарегистрированы?</p>
+                    <Link to='/signup' className='login__link' target='_self'>Регистрация</Link>
+                </div>
             </div>
         </section>
     )
