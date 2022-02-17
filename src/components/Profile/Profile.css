@@ -1,0 +1,140 @@
+.profile{
+    width: 100%;
+    background-color: #202020;
+    margin: 0 auto;
+}
+
+.profile__container{
+    width: 410px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 70px 0;
+}
+
+.profile__title{
+    font-size: 24px;
+    line-height: 29px;
+    font-weight: 500;
+    text-align: center;
+    margin: 0 0 123px;
+}
+
+.profile__form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile__label{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #FFF;
+    font-size: 11px;
+    line-height: 13px;
+    font-weight: 500;
+}
+
+.profile__input{
+    height: 32px;
+    width: 90%;
+    color: #FFF;
+    font-size: 11px;
+    line-height: 13px;
+    font-weight: 400;
+    background-color: transparent;
+    padding: 0;
+    border: 0;
+    text-align: right;
+}
+
+
+.profile__text{
+    font-size: 11px;
+    line-height: 13px;
+    font-weight: 500;
+    text-align: left;
+}
+
+.profile__text-right{
+    font-size: 11px;
+    line-height: 13px;
+    font-weight: 400;
+    text-align: right;
+}
+
+.profile__line{
+    width: 100%;
+    border-bottom: 1px solid #424242;
+    margin: 16px auto 17px;
+}
+
+.profile__buttons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 220px;
+}
+
+.profile__button{
+    color: #FFF;
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 400;
+    border: none;
+    background-color: transparent;
+    transition: 300ms;
+}
+
+.profile__button-red{
+    color: #EE3465;
+    margin-top: 16px;
+    transition: 300ms;
+}
+
+.profile__hover:hover{
+    cursor: pointer;
+    opacity: 0.7;
+    transition: 300ms;
+}
+
+@media (max-width: 768px){
+
+    .profile__container{
+        padding: 222px 0 283px;
+    }
+
+    .profile__title{
+        margin: 0 0 96px;
+    }
+
+    .profile__buttons{
+        margin-top: 210px;
+    }
+
+}
+
+@media (max-width: 425px){
+
+    .profile__container{
+        width: 260px;
+        padding: 70px 0 40px;
+    }
+
+    .profile__input{
+        width: 80%;
+    }
+
+    .profile__title{
+        margin: 0 0 80px;
+    }
+
+    .profile__buttons{
+        margin-top: 379px;
+    }
+
+}

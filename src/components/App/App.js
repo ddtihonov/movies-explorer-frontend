@@ -5,6 +5,7 @@ import Main from '../Main/Main';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Movies from '../Movies/Movies';
+import Profile from '../Profile/Profile';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 
@@ -21,6 +22,10 @@ export default function App() {
     function handleAuthorize() {
         setLoggedIn(true);
         navigate('/movies');
+    }
+
+    function handleLogout() {
+        setLoggedIn(false);
     }
 
 return (
@@ -47,7 +52,17 @@ return (
                 />
             </ProtectedRoute>    
             }
-        />             
+        />
+        <Route exact path='/profile'  element={
+            <ProtectedRoute loggedIn={loggedIn}>
+                <Profile
+                    loggedIn={loggedIn}
+                    handleLogout={handleLogout} 
+                />
+            </ProtectedRoute>      
+            }
+        />
+
     </Routes>  
 </>
 );
