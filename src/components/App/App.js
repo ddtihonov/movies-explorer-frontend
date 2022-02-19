@@ -5,6 +5,7 @@ import Main from '../Main/Main';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Movies from '../Movies/Movies';
+import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
@@ -48,6 +49,14 @@ return (
         <Route exact path='/movies'  element={
             <ProtectedRoute loggedIn={loggedIn}>
                 <Movies
+                    loggedIn={loggedIn}
+                />
+            </ProtectedRoute>    
+            }
+        />
+        <Route exact path='/saved-movies'  element={
+            <ProtectedRoute loggedIn={loggedIn}>
+                <SavedMovies
                     loggedIn={loggedIn}
                 />
             </ProtectedRoute>    
