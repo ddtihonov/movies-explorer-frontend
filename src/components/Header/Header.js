@@ -8,7 +8,7 @@ import './Header.css'
 export default function Header({loggedIn}) {
     
     return (
-    <header className='header'  className={`${loggedIn ? 'header-black' : 'header'}`}>
+    <header className={`${loggedIn ? 'header-black' : 'header'}`}>
         <div className='header__container'>
             <Link to='/' className='header__link-logo header__hover' target='_self'>
                 <img className='header__image' src={logo} alt='смайл'/>

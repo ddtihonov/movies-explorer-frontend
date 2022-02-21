@@ -11,7 +11,7 @@ export default function FilterCheckbox () {
         <div className="checkbox">
             <input
                 className="checkbox__input"
-                id="check"
+                id="chec"
                 type="checkbox"
                 onClick={handleFilterShortMovies}
             />

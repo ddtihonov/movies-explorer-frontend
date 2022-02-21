@@ -14,9 +14,6 @@ export default function App() {
 
     const navigate = useNavigate();
 
-    // стейт маршрутов
-    //const [currentRoute, setCurrentRoute] = useState('');    
-
     //стейт логина
     const [loggedIn, setLoggedIn] = useState(false);
 
