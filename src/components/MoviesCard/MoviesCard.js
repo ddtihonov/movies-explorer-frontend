@@ -15,10 +15,9 @@ export default function MoviesCard ({movie}) {
 
     return (
         <li className='movie'>
-            <div className='movie__container' onClick={() => setIsSavedMovie(isSavedMovie === false ? true : false)}>
+            <div className='movie__container'>
                 { routes.pathname === '/movies' ? (
-                    <button
-                    className={`${isSavedMovie ? 'movie__button-like' : 'movie__button-norm'}`} 
+                    <button onClick={() => setIsSavedMovie(isSavedMovie === false ? true : false)} className={`movie__button ${isSavedMovie ? 'movie__button-like' : 'movie__button-norm'}`} 
                     type='button'>{`${isSavedMovie ? '' : 'Сохранить'}`}</button>
                 ) : (
                     <button className='movie__button movie__button-save' type='button'></button>

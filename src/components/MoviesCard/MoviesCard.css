@@ -12,52 +12,10 @@
     cursor: pointer; 
 }
 
-.movie__container:hover .movie__button-norm{
-    opacity: 1;
-    transition: 300ms;
-}
-
 .movie__container:hover .movie__button{
     opacity: 1;
     transition: 300ms;
-}
-
-.movie__container:hover .movie__button-like{
-    opacity: 1;
-    transition: 300ms;
-}
-
-.movie__button-norm{
-    border: none;
-    margin: 0;
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    padding: 0;
-    opacity: 0;
-    color: #FFF;
-    pointer-events: none;
-    transition: 300ms;
-    font-size: 10px;
-    line-height: 9px;
-    font-weight: 400;
-    width: 72px;
-    height: 21px;
-    border-radius: 30px;
-    background-color: #313131;
-    pointer-events: none;
-}
-
-.movie__button-save{
-    transition: 300ms;
-    width: 21px;
-    height: 21px;
-    border-radius: 50%;
-    background-image: url(../../images/movie/icon__btn_2.svg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-color: #313131;
-    pointer-events: none;
+    cursor: pointer;
 }
 
 .movie__button{
@@ -69,21 +27,30 @@
     padding: 0;
     opacity: 0;
     color: #FFF;
-    pointer-events: none;
     transition: 300ms;
 }
 
+.movie__button-norm{
+    font-size: 10px;
+    line-height: 9px;
+    font-weight: 400;
+    width: 72px;
+    height: 21px;
+    border-radius: 30px;
+    background-color: #313131;
+}
+
+.movie__button-save{
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background-image: url(../../images/movie/icon__btn_2.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #313131;
+}
+
 .movie__button-like{
-    border: none;
-    margin: 0;
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    padding: 0;
-    opacity: 0;
-    color: #FFF;
-    pointer-events: none;
-    transition: 300ms;
     width: 21px;
     height: 21px;
     border-radius: 50%;
@@ -91,7 +58,6 @@
     background-repeat: no-repeat;
     background-position: center;
     background-color: #EE3465;
-    pointer-events: none;
 }
 
 .movie__image{
