@@ -1,8 +1,97 @@
 .movie{
-    max-width: 360px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.movie__container{
+    width: 100%;
+    position: relative;
+    display: flex;
+    cursor: pointer; 
+}
+
+.movie__container:hover .movie__button-norm{
+    opacity: 1;
+    transition: 300ms;
+}
+
+.movie__container:hover .movie__button{
+    opacity: 1;
+    transition: 300ms;
+}
+
+.movie__container:hover .movie__button-like{
+    opacity: 1;
+    transition: 300ms;
+}
+
+.movie__button-norm{
+    border: none;
+    margin: 0;
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 0;
+    opacity: 0;
+    color: #FFF;
+    pointer-events: none;
+    transition: 300ms;
+    font-size: 10px;
+    line-height: 9px;
+    font-weight: 400;
+    width: 72px;
+    height: 21px;
+    border-radius: 30px;
+    background-color: #313131;
+    pointer-events: none;
+}
+
+.movie__button-save{
+    transition: 300ms;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background-image: url(../../images/movie/icon__btn_2.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #313131;
+    pointer-events: none;
+}
+
+.movie__button{
+    border: none;
+    margin: 0;
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 0;
+    opacity: 0;
+    color: #FFF;
+    pointer-events: none;
+    transition: 300ms;
+}
+
+.movie__button-like{
+    border: none;
+    margin: 0;
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    padding: 0;
+    opacity: 0;
+    color: #FFF;
+    pointer-events: none;
+    transition: 300ms;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background-image: url(../../images/movie/icon__btn_1.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #EE3465;
+    pointer-events: none;
 }
 
 .movie__image{
@@ -40,4 +129,42 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+@media (max-width: 1279px){
+    .movie__box{
+        margin-top: 25px;
+    }
+
+    .movie__box{
+        width: 100%;
+    }
+
+    .movie__image{
+        height: 190px;
+    }
+}
+
+@media (max-width: 767px){
+    .movie__image{
+        height: 168px;
+    }
+
+    .movie__box{
+        margin-top: 16px;
+    }
+
+    .movie__title{
+        font-size: 12px;
+        line-height: 15px;
+    }
+    .movie__text{
+        height: 12px;
+        width: 44px;
+    }
+
+    .movie__button{
+        top: 10px;
+        right: 10px;
+    }
 }
