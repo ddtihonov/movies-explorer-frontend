@@ -1,0 +1,7 @@
+@import url(./vendor/normalize.css);
+
+/*Подключаем fonts*/
+@import url(./fonts/fonts.css);
+
+/*Подключаем page*/
+@import url(./components/App/App.css);

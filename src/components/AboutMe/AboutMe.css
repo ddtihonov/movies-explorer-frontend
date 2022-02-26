@@ -1,0 +1,291 @@
+.me{
+    width: 100%;
+    background-color: #202020;
+    margin: 0 auto;
+    display: flex;
+}
+
+.me__container{
+    width: 1140px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 110px 0;
+}
+
+.me__title{
+    font-size: 22px;
+    line-height: 27px;
+    font-weight: 400;
+    margin: 0 0 23px 0;
+    letter-spacing: -0.04em;
+}
+
+.me__line{
+    width: 100%;
+    border-bottom: 1px solid #DADADA;
+    margin-bottom: 66px;
+}
+
+.me__article{
+    display: flex;
+    justify-content: space-between;
+}
+
+.me__box{
+    width: 600px;
+}
+
+.me__image{
+    width: 270px;
+    height: 327px;
+    border-radius: 10px;
+}
+
+.me__subtitle{
+    font-size: 50px;
+    line-height: 58px;
+    font-weight: 400;
+    margin: 0;
+    letter-spacing: -0.04em;
+}
+
+.me__about{
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: 500;
+    margin: 18px 0 26px;
+}
+
+.me__text{
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.me__links{
+    display: flex;
+    align-items: center;
+    margin-top: 99px;
+}
+
+.me__link{
+    text-decoration: none;
+    color: #FFF;
+    font-size: 15px;
+    line-height: 17px;
+    font-weight: 500;
+    margin-right: 20px;
+    transition: 300ms;
+}
+
+.me__link:hover{
+    cursor: pointer;
+    opacity: 0.7;
+    transition: 300ms;
+}
+
+.me__link:last-child{
+    margin: 0;
+}
+
+.me__portfolio{
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: 400;
+    color: #A0A0A0;
+    margin: 100px 0 50px;
+}
+
+.me__list{
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.me__item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid #E5E5E5;
+    padding-bottom: 19px;
+    margin-bottom: 20px;
+}
+
+.me__item:last-child{
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.me__list-text{
+    font-size: 30px;
+    line-height: 50px;
+    font-weight: 400;
+    margin: 0;
+    letter-spacing: -0.04em;
+}
+
+.me__list-image{
+    width: 29px;
+    height: 60px;
+    transition: 300ms;
+}
+
+.me__list-image:hover{
+    cursor: pointer;
+    opacity: 0.7;
+    transition: 300ms;
+}
+
+.me__list-link{
+    width: 29px;
+    height: 60px;
+}
+
+@media (max-width: 1280px){
+    .me__container{
+        max-width: calc(100% - 140px)
+    }
+}
+
+@media (max-width: 1020px){
+    .me__container{
+        max-width: calc(100% - 100px);
+        padding: 90px 0;
+    }
+
+    .me__box{
+        width: 54%;
+    }
+
+    .me__subtitle{
+        font-size: 40px;
+        line-height: 40px;
+    }
+
+    .me__about{
+        font-size: 12px;
+        line-height: 18px;
+        margin: 16px 0 20px;
+    }
+
+    .me__text{
+        font-size: 12px;
+        line-height: 18px;
+    }
+    }
+
+    @media (max-width: 768px){
+        .me__box{
+            width: 364px;
+        }
+
+        .me__image{
+            width: 255px;
+            height: 307px;
+        }
+
+        .me__portfolio{
+            margin: 90px 0 50px;
+        }
+
+        .me__list-text{
+            font-size: 28px;
+            line-height: 50px;
+        }
+        
+        .me__list-image{
+            width: 27px;
+        }
+
+        .me__list-link{
+            width: 27px;
+        }
+}
+
+    @media (max-width: 710px){
+        .me__line{
+            margin-bottom: 60px;
+        }
+
+        .me__article{
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+    }
+
+        .me__box{
+            width: 100%;
+        }
+
+        .me__image{
+            width: 292px;
+            height: 352px;
+            margin-bottom: 40px;
+        }
+
+        .me__links{
+            margin-top: 40px;
+        } 
+}  
+        
+    @media (max-width: 425px){
+
+        .me__container{
+            max-width: calc(100% - 28px);
+            padding: 70px 0;
+        }
+    
+        .me__title{
+            font-size: 18px;
+            line-height: 22px;
+            margin: 0 0 28px 0;
+        }
+
+        .me__subtitle{
+            font-size: 30px;
+            line-height: 36px;
+        }
+
+        .me__about{
+            font-size: 11px;
+            line-height: 16px;
+            margin: 20px 0 20px;
+        }
+
+        .me__text{
+            font-size: 11px;
+            line-height: 16px;
+        }
+
+        .me__link{
+            font-size: 14px;
+            margin-right: 26px;
+        }
+
+        .me__portfolio{
+            font-size: 14px;
+            margin: 69px 0 40px;
+        }
+
+        .me__list-text{
+            font-size: 18px;
+            line-height: 28px;
+        }
+        
+        .me__list-image{
+            width: 18px;
+            height: 28px;
+        }
+
+        .me__list-link{
+            width: 18px;
+            height: 28px;
+        }
+}

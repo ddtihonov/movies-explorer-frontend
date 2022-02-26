@@ -1,0 +1,135 @@
+.footer{
+    width: 100%;
+    background-color: #202020;
+    margin: 0 auto;
+}
+
+.footer__container{
+    
+    width: 1140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    padding: 79px 0 20px;
+}
+
+.footer__box{
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footer__information{
+    color: #8B8B8B;
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 400;
+    text-align: center;
+    margin: 0;
+}
+
+.footer__line{
+    width: 100%;
+    border-bottom: 1px solid #424242;
+    margin: 20px auto;
+}
+
+.footer__list{
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer__item{
+    margin-right: 20px;
+}
+
+.footer__item:last-child{
+    margin-right: 0;
+}
+
+
+.footer__link{
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 400;
+    color: #FFF;
+    text-decoration: none;
+    transition: 300ms;
+}
+
+.footer__link:hover{
+    opacity: 0.7;
+    transition: 300ms;
+}
+
+.footer__copyright{
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 400;
+    color: #FFF;
+    margin: 0;
+}
+
+@media (max-width: 1280px){
+    .footer__container{
+        max-width: calc(100% - 140px)
+    }
+}
+
+@media (max-width: 1020px){
+    .footer__container{
+        max-width: calc(100% - 74px)
+    }
+}
+
+@media (max-width: 768px){
+    .footer__container{
+        padding: 79px 0 20px;
+    }
+}
+
+@media (max-width: 425px){
+    .footer__container{
+        max-width: calc(100% - 20px);
+        padding: 79px 0 10px;
+    }
+
+    .footer__information{
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .footer__line{
+        margin: 21px auto 30px auto;
+    }
+
+    .footer__box{
+        flex-direction: column-reverse;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .footer__list{
+        flex-direction: column;
+    }
+
+    .footer__copyright{
+        font-size: 12px;
+        line-height: 15px;
+        color: #8B8B8B;
+    }
+
+    .footer__item{
+        margin: 0 0 12px;
+    }
+    
+    .footer__item:last-child{
+        margin: 0 0 30px;
+    }
+}
