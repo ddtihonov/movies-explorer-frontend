@@ -112,6 +112,13 @@
 
     @media (max-width: 425px){
 
+        .techs{
+            width: 100%;
+            background-color: #202020;
+            margin: 0 auto;
+            display: flex;
+        }
+
         .techs__title{
             font-size: 18px;
             line-height: 22px;

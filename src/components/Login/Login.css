@@ -135,12 +135,16 @@
 
 @media (max-width: 425px){
     .login__container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         width: 260px;
         padding: 56px 0 30px;
     }
 
     .login__title{
         margin: 50px auto 80px;
+        text-align: center;
     }
 
     .login__box{
@@ -162,5 +166,9 @@
         height: 45px;
         font-size: 12px;
         line-height: 15px;
+    }
+
+    .login__image{
+        margin: 0 auto;
     }
     }

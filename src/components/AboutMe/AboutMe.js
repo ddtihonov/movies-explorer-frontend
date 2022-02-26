@@ -24,14 +24,14 @@ export default function  AboutMe () {
                 <p className='me__portfolio'>Портфолио</p>
                 <ul className='me__list'>
                     <li className='me__item'>
-                        <p className='me__list-text'>Статичный сайт</p>
-                        <a className='me__list-link'href='https://www.facebook.com/ddtikhonov' target='_blank' rel="noopener noreferrer">
+                        <p className='me__list-text'>Одностраничный сайт</p>
+                        <a className='me__list-link'href='https://ddtihonov.github.io/russian-travel/index.html' target='_blank' rel="noopener noreferrer">
                             <img className="me__list-image" src={sagitta} alt="стрелка"/>
                         </a>
                     </li>
                     <li className='me__item'>
-                        <p className='me__list-text'>Адаптивный сайт</p>
-                        <a className='me__list-link' href='https://ddtihonov.github.io/russian-travel/index.html' target='_blank' rel="noopener noreferrer" >
+                        <p className='me__list-text'>Многостраничный сайт</p>
+                        <a className='me__list-link' href='https://ddtihonov.github.io/Deluxe-house/' target='_blank' rel="noopener noreferrer" >
                             <img className="me__list-image" src={sagitta} alt="стрелка"/>
                         </a>
                     </li>

@@ -141,6 +141,7 @@
 
     .register__title{
         margin: 50px auto 80px;
+        text-align: center;
     }
 
     .register__box{
@@ -162,5 +163,9 @@
         height: 45px;
         font-size: 12px;
         line-height: 15px;
+    }
+
+    .register__image{
+        margin: 0 auto;
     }
     }

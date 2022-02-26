@@ -22,7 +22,7 @@ export default function SearchForm () {
                             minLength='1'
                             maxLength='50'
                         />
-                    <button className='search__button' type='submit'>Найти</button>    
+                    <button className='search__button search__button' type='submit'>Найти</button>    
                     </div>
 
                 </form>
