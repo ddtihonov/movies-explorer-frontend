@@ -1,32 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import logo from '../../images/logo.svg'
 import './Register.css'
+import { FormValidation } from '../../hooks/FormValidation';
 
 export default function Register ({onRegister}) {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
+    const [buttonDisabled, setButtonDisabled] = useState(true)
+    const handleForm = FormValidation()
 
-    const handleChangeName = (evt) => {
-        setName(evt.target.value);
-    }
-
-    const handleChangeEmail = (evt) => {
-        setEmail(evt.target.value);
-    }
-
-    const handleChangePassword = (evt) => {
-        setPassword(evt.target.value);
-    }
-
+    useEffect(() => {
+        handleForm.isValid ? setButtonDisabled(false) : setButtonDisabled(true)
+    }, [handleForm.isValid])
 
     function handleSubmit(evt) {
         evt.preventDefault();
-
-        onRegister({ name, password, email });
+        onRegister(handleForm.values);
+        handleForm.resetForm()
     }
     
         return(
@@ -39,9 +30,9 @@ export default function Register ({onRegister}) {
                         <input className='register__input'
                         type='text' 
                         name='name'
-                        value={'' || name}
-                        onChange={handleChangeName} 
-                        id='name-input' 
+                        value={handleForm.values.this}
+                        onChange={handleForm.handleChange} 
+                        id='name' 
                         minLength='2' 
                         maxLength='30'
                         pattern='^[A-Za-zА-Яа-яЁё\s\-]{2,30}$'
@@ -53,9 +44,9 @@ export default function Register ({onRegister}) {
                         <input className='register__input'
                         type='email' 
                         name='email'
-                        value={'' || email}
-                        onChange={handleChangeEmail} 
-                        id='email-input' 
+                        value={handleForm.values.this}
+                        onChange={handleForm.handleChange} 
+                        id='email' 
                         minLength='6' 
                         maxLength='20'
                         pattern='^[^@\s]+@[^@\s]+\.[^@\s]+$'
@@ -67,16 +58,16 @@ export default function Register ({onRegister}) {
                         <input className='register__input'
                         type='password' 
                         name='password'
-                        value={password}
-                        onChange={handleChangePassword} 
-                        id='password-input' 
+                        value={handleForm.values.this}
+                        onChange={handleForm.handleChange} 
+                        id='password' 
                         minLength='6' 
                         maxLength='20'
                         title='поле должно содержать не менее 6 и не более 20 знаков' 
                         required/>
                         <span className='register__input-error password-input-error form__input-error'></span>
                     </label>
-                    <button className='register__button' type='submit'>Зарегистрироваться</button>
+                    <button className={`register__button ${buttonDisabled && 'register__button_disabled'}`} type='submit'>Зарегистрироваться</button>
                 </form>
                 <div className='register__box'>
                     <p className='register__text' >Уже зарегистрированы?</p>

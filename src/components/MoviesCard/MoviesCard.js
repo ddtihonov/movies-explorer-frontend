@@ -11,8 +11,6 @@ export default function MoviesCard ({movie}) {
         return `${Math.floor(movie.duration / 60)}ч ${movie.duration % 60}м`;
     };
 
-    console.log(isSavedMovie)
-
     return (
         <li className='movie'>
             <div className='movie__container'>

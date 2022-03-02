@@ -41,7 +41,7 @@ class MainApi {
 }
 
 const auth = new MainApi({
-    baseAuthUrl: 'https://api.ddtihonov.students.nomoredomains.work',
+    baseAuthUrl: 'http://api.ddtihonov.students.nomoredomains.work',
     headers: {'Content-Type': 'application/json'}
 });
 

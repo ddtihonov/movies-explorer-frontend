@@ -10,10 +10,12 @@ import Profile from '../Profile/Profile';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import auth from '../../utils/MainApi';
 import PageNotFound from '../PageNotFound/PageNotFound';
+import { CurrentUser } from '../../context/CurrentUserContext';
 
 export default function App() {
 
     const navigate = useNavigate();
+    const [currentUser, setCurrentUser] = useState()
 
     //стейт логина
     const [loggedIn, setLoggedIn] = useState(false);
@@ -42,6 +44,7 @@ export default function App() {
     }
 
 return (
+<CurrentUser.Provider value={currentUser}>    
 <>
     <Routes>
         <Route exact path='/'  element={
@@ -50,7 +53,6 @@ return (
         <Route exact path='/signup' element={
             <Register
                 onRegister={handleRegister}
-                successRegister={successRegister}
             />
         } />
         <Route path='*' element={
@@ -60,7 +62,7 @@ return (
             <Login
                 onLogin={handleAuthorize}
                 navigate={navigate}
-                loggedIn={loggedIn} 
+                loggedIn={loggedIn}
             />
             } />
         <Route exact path='/movies'  element={
@@ -90,5 +92,6 @@ return (
         />
     </Routes>  
 </>
+</CurrentUser.Provider>
 );
 }
