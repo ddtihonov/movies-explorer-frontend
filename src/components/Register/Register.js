@@ -20,6 +20,7 @@ export default function Register ({onRegister}) {
         handleForm.resetForm()
     }
     
+
         return(
         <div className='register'>
             <div className='register__container'>
@@ -27,7 +28,7 @@ export default function Register ({onRegister}) {
                 <h2 className='register__title'>Добро пожаловать!</h2>
                 <form className='register__form' onSubmit={handleSubmit}>
                     <label className='register__label'>Имя
-                        <input className='register__input'
+                        <input className={`register__input ${handleForm.errors.name && 'register__input_wrong'}`}
                         type='text' 
                         name='name'
                         value={handleForm.values.this}
@@ -36,12 +37,12 @@ export default function Register ({onRegister}) {
                         minLength='2' 
                         maxLength='30'
                         pattern='^[A-Za-zА-Яа-яЁё\s\-]{2,30}$'
-                        title='поле может содержать только латиницу, кириллицу, пробел или дефис' 
+                        title='поле может содержать только латиницу, кириллицу, пробел или дефис'
                         required/>
-                        <span className='register__input-error name-input-error form__input-error'></span>
+                        <span className='register__input-error'>{handleForm.errors.name}</span>
                     </label>
                     <label className='register__label'>E-mail
-                        <input className='register__input'
+                        <input className={`register__input ${handleForm.errors.email && 'register__input_wrong'}`}
                         type='email' 
                         name='email'
                         value={handleForm.values.this}
@@ -52,10 +53,10 @@ export default function Register ({onRegister}) {
                         pattern='^[^@\s]+@[^@\s]+\.[^@\s]+$'
                         title='поле должно содержать формат электронного адреса' 
                         required/>
-                        <span className='register__input-error email-input-error form__input-error'></span>
+                        <span className='register__input-error'>{handleForm.errors.email}</span>
                     </label>
                     <label className='register__label'>Пароль
-                        <input className='register__input'
+                        <input className={`register__input ${handleForm.errors.password && 'register__input_wrong'}`}
                         type='password' 
                         name='password'
                         value={handleForm.values.this}
@@ -65,7 +66,7 @@ export default function Register ({onRegister}) {
                         maxLength='20'
                         title='поле должно содержать не менее 6 и не более 20 знаков' 
                         required/>
-                        <span className='register__input-error password-input-error form__input-error'></span>
+                        <span className='register__input-error'>{handleForm.errors.password}</span>
                     </label>
                     <button className={`register__button ${buttonDisabled && 'register__button_disabled'}`} type='submit'>Зарегистрироваться</button>
                 </form>

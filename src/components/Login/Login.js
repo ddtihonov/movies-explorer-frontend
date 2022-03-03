@@ -8,6 +8,7 @@ import { FormValidation } from '../../hooks/FormValidation';
 
 export default function Login ({onLogin}) {
 
+
     const [buttonDisabled, setButtonDisabled] = useState(true)
     const handleForm = FormValidation()
 
@@ -28,7 +29,7 @@ export default function Login ({onLogin}) {
                 <h2 className='login__title'>Рады видеть!</h2>
                 <form className='login__form' onSubmit={handleSubmit}>
                     <label className='login__label'>E-mail
-                        <input className='login__input'
+                        <input className={`login__input ${handleForm.errors.email && 'login__input_wrong'}`}
                         type='email' 
                         name='email'
                         id="email" 
@@ -40,10 +41,10 @@ export default function Login ({onLogin}) {
                         onChange={handleForm.handleChange}
                         title='поле должно содержать формат электронного адреса'  
                         />
-                        <span className='login__input-error email-input-error form__input-error'></span>
+                        <span className='login__input-error'>{handleForm.errors.email}</span>
                     </label>
                     <label className='login__label'>Пароль
-                        <input className='login__input'
+                        <input className={`login__input ${handleForm.errors.password && 'login__input_wrong'}`}
                         type='password' 
                         name='password'
                         id='password'
@@ -54,7 +55,7 @@ export default function Login ({onLogin}) {
                         onChange={handleForm.handleChange}
                         title='поле должно содержать не менее 6 и не более 20 знаков'  
                         />
-                        <span className='login__input-error password-input-error form__input-error'></span>
+                        <span className='login__input-error'>{handleForm.errors.password}</span>
                     </label>
                     <button className={`register__button ${buttonDisabled && 'register__button_disabled'}`} type="submit">Войти</button>
                 </form>
