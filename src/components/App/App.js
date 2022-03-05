@@ -32,7 +32,7 @@ export default function App() {
 
 
     useEffect(() => {
-        checkToken();
+    
     }, [])
 
     // регистрация
@@ -52,28 +52,35 @@ export default function App() {
     // авторизация
     function handleAuthorize({ password, email }) {
         auth.authorize({ password, email })
-            .then((data) => {
-                setCurrentUser(data)
-                localStorage.setItem('token', data.token);
+            .then((userData) => {
+                setCurrentUser(userData)
+                localStorage.setItem('token', userData.token);
                 checkToken();
             })
             
             .catch((err) => setErr(err))
     }
 
+    // выйти из аккаунта
+    function handleLogout () {
+    auth.deleteAuth()
+        .then(() => {
+        setCurrentUser()
+        setLoggedIn(false);
+        navigate('/')
+        localStorage.clear()
+        sessionStorage.clear()
+        })
+        .catch((err) => setErr(err))
+}
+
     function checkToken() {
-        const jwt = localStorage.getItem('token');
-        if (jwt) {
+        const token = localStorage.getItem('token');
+        if (token) {
+            console.log(token)
             setLoggedIn(true);
             navigate('/movies')
         }
-    }
-
-
-    function handleLogout() {
-        localStorage.removeItem('jwt');
-        setLoggedIn(false);
-        navigate('/')
     }
 
     const closePopup = () => {

@@ -1,10 +1,12 @@
 import React, {useState} from 'react'
 import { useLocation } from 'react-router';
 import './MoviesCard.css'
+import auth from '../../utils/MainApi';
 
 export default function MoviesCard ({movie}) {
 
     const [isSavedMovie, setIsSavedMovie] = useState(false);
+    const [trailerVisible, setTrailerVisible] = useState(false)
     const  routes  = useLocation()
 
     function calculateTime () {
