@@ -6,23 +6,16 @@ import { CurrentUser } from '../../context/CurrentUserContext';
 
 export default function Profile ({loggedIn, handleLogout, chargingData }) {
     
-    const currentUser = React.useContext(CurrentUser)
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [wrongName, setWrongName] = useState(false)
-    const [wrongEmail, setWrongEmail] = useState(false)
-    const [buttonDisabled, setButtonDisabled] = useState(true)
-
-    useEffect(() => {
-        if (currentUser) {
-            setName(currentUser.user.name)
-            setEmail(currentUser.user.email)
-        }
-    }, [currentUser])
+    const currentUser = React.useContext(CurrentUser);
+    const [name, setName] = useState(currentUser.name);
+    const [email, setEmail] = useState(currentUser.email);
+    const [wrongName, setWrongName] = useState(false);
+    const [wrongEmail, setWrongEmail] = useState(false);
+    const [buttonDisabled, setButtonDisabled] = useState(true);
 
     useEffect(() => {
         if (name && email) {
-            wrongName || wrongEmail || (name === currentUser.user.name && email === currentUser.user.email)
+            wrongName || wrongEmail || (name === currentUser.name && email === currentUser.email)
                 ?
                 setButtonDisabled(true)
                 :
@@ -58,7 +51,7 @@ export default function Profile ({loggedIn, handleLogout, chargingData }) {
                 loggedIn={loggedIn}
             />
             <div className='profile__container'>
-                <h2 className='profile__title'>Привет, {currentUser && currentUser.user.name}!</h2>
+                <h2 className='profile__title'>Привет, {currentUser && currentUser.name}!</h2>
                 <form className='profile__form' onSubmit={handleSubmit}>
                     <label className='profile__label'>Имя
                             <input className={`profile__input ${wrongName && 'profile__input_wrong'}`}

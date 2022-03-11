@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 
 import Main from '../Main/Main';
 import Register from '../Register/Register';
@@ -9,6 +9,7 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import auth from '../../utils/MainApi';
+import api from '../../utils/MoviesApi';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import { CurrentUser } from '../../context/CurrentUserContext';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
@@ -19,69 +20,101 @@ import Preloader from '../Preloader/Preolader';
 export default function App() {
 
     const navigate = useNavigate();
+    const {routes}  = useLocation();
 
-    //стейт контекста
+    // Стейт актуального пользователя
     const [currentUser, setCurrentUser] = useState();
 
-    //стейт логина
+    // Стейт  авторизации
     const [loggedIn, setLoggedIn] = useState(false);
+
+   // Стейт карточек из BeatFilm
+    const [moviesList, setMoviesList] = useState([]);
+
+    // Стейт карточек из Preloader
+    const [isSubmitting, setIsSubmitting] = useState(false); 
 
     const [infoTooltipOpen, setInfoTooltipOpen] = useState(false)
     const [messageErr, setMessageErr] = useState('')
     const [err, setErr] = useState('')
 
 
+ // Эффект запроса карточек от BeatFilms
     useEffect(() => {
-    
-    }, [])
+        api.getInitialCards()
+            .then((cardsInfo) => {
+                setMoviesList(cardsInfo);
+            })
+            .catch((err) => {
+                console.log(`Внимание! ${err}`);
+            });
+    }, []);
 
+    // Эффект проверки авторизации на сайте
+    useEffect(() => {
+        if (localStorage.isAuth) {
+            setIsSubmitting(true)
+                auth.getUserInfo()
+                .then((userInfo) => {
+                    setCurrentUser(userInfo) 
+                    localStorage.setItem('currentUser', JSON.stringify(userInfo))  
+                    setLoggedIn(true);
+                })
+                .catch((err) => {
+                    setErr(err);
+                    navigate('/');
+                })
+                .finally(() => setIsSubmitting(false))
+        }
+}, []);
+
+    
     // регистрация
-    function handleRegister({ name, password, email }) {
+    function handleRegister({ name, email, password }) {
+        setIsSubmitting(true)
         auth.register({ name, password, email })
-            .then(() => {
+            .then((userData) => {
+                console.log(userData)
                 setInfoTooltipOpen(true)
                 setTimeout(() => {
-                    navigate('/signin');
+                    handleAuthorize({ email, password })
                     setInfoTooltipOpen(false)
                 },
                     2000)
     })
             .catch((err) => setErr(err))
+            .finally(() => setIsSubmitting(false))
     }
 
     // авторизация
-    function handleAuthorize({ password, email }) {
-        auth.authorize({ password, email })
+    function handleAuthorize({ email, password }) {
+        setIsSubmitting(true)
+        auth.authorize({ email, password })
             .then((userData) => {
+                localStorage.setItem('isAuth', true)
                 setCurrentUser(userData)
-                localStorage.setItem('token', userData.token);
-                checkToken();
+                localStorage.setItem('currentUser', JSON.stringify(userData))
+                setLoggedIn(true);
+                navigate('/movies');
             })
             
             .catch((err) => setErr(err))
+            .finally(() => setIsSubmitting(false))
     }
+
 
     // выйти из аккаунта
     function handleLogout () {
-    auth.deleteAuth()
-        .then(() => {
-        setCurrentUser()
-        setLoggedIn(false);
-        navigate('/')
-        localStorage.clear()
-        sessionStorage.clear()
-        })
-        .catch((err) => setErr(err))
+        auth.deleteAuth()
+            .then(() => {
+            setCurrentUser()
+            setLoggedIn(false);
+            navigate('/')
+            localStorage.clear()
+            sessionStorage.clear()
+            })
+            .catch((err) => setErr(err))
 }
-
-    function checkToken() {
-        const token = localStorage.getItem('token');
-        if (token) {
-            console.log(token)
-            setLoggedIn(true);
-            navigate('/movies')
-        }
-    }
 
     const closePopup = () => {
         setInfoTooltipOpen(false)
@@ -124,6 +157,9 @@ return (
             <ProtectedRoute loggedIn={loggedIn}>
                 <Movies
                     loggedIn={loggedIn}
+                    moviesList={moviesList}
+                    Preloader={Preloader}
+
                 />
             </ProtectedRoute>    
             }
@@ -132,6 +168,8 @@ return (
             <ProtectedRoute loggedIn={loggedIn}>
                 <SavedMovies
                     loggedIn={loggedIn}
+                    moviesList={moviesList}
+                    Preloader={Preloader}
                 />
             </ProtectedRoute>    
             }
@@ -152,7 +190,8 @@ return (
             icon={ messageErr ? unsuccessfully : successfully }
             notification={ messageErr ? messageErr : 'Запрос выполнен успешно!' }
         />
-        }  
+        }
+    {isSubmitting && <Preloader />}
 </>
 </CurrentUser.Provider>
 );

@@ -2,27 +2,14 @@ import React,{ useEffect, useState } from 'react'
 import { useLocation } from 'react-router';
 import './MoviesCardList.css'
 import MoviesCard from '../MoviesCard/MoviesCard'
-import Preloader from '../Preloader/Preolader'
-import api from '../../utils/MoviesApi'
 import ScreenSize from '../../hooks/ScreenSize';
 
-export default function MoviesCardList () {
+export default function MoviesCardList ({loggedIn, Preloader, moviesList}) {
 
     const routes  = useLocation()
-    const [moviesList, setMoviesList] = useState([]);
     const [moviesTotal, setMoviesTotal] = useState(0);
     const [addMovies, setAddMovies] = useState(0);
     const width = ScreenSize()
-
-    useEffect(() => {
-        api.getInitialCards()
-            .then((cardsInfo) => {
-                setMoviesList(cardsInfo);
-            })
-            .catch((err) => {
-                console.log(`Внимание! ${err}`);
-            });
-    }, []);
 
     useEffect(() => {
         function getCards() {
@@ -52,7 +39,9 @@ export default function MoviesCardList () {
             <ul className="movie-list__roster">
                 {moviesList.map((item, index) => {
                 if (index + 1 <= moviesTotal) {
-                    return <MoviesCard movie={item} key={index} />;
+                    return <MoviesCard 
+                    movie={item} 
+                    key={index} />;
                 } else {
                     return '';
                 }

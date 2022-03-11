@@ -6,7 +6,7 @@ import SearchForm from '../SearchForm/SearchForm';
 import './SavedMovies.css'
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-export default function SavedMovies({loggedIn}) {
+export default function SavedMovies({loggedIn, Preloader, moviesList}) {
     
     return (
         <section className='saved-movies'>
@@ -14,7 +14,10 @@ export default function SavedMovies({loggedIn}) {
                 loggedIn={loggedIn}
             />
             <SearchForm/>
-            <MoviesCardList/>
+            <MoviesCardList
+                moviesList={moviesList}
+                Preloader={Preloader}
+            />
             <Footer/>
         </section>
     );

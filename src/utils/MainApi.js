@@ -11,21 +11,21 @@ class MainApi {
             headers: this.headers,
             body: JSON.stringify({
                 name: name,
-                password: password,
-                email: email
+                email: email,
+                password: password
             }),
         })
         .then(this._checkError);
     }
 
-    authorize({ password, email }) {
+    authorize({ email, password }) {
         return fetch(`${this.baseAuthUrl}/signin`, {
             credentials: 'include',
             method: 'POST',
             headers: this.headers,
             body: JSON.stringify({
-                password: password,
-                email: email
+                email: email,
+                password: password
             }),
             })
 
@@ -43,7 +43,7 @@ class MainApi {
     }
     
 
-    getUserInfo() {
+    getUserInfo(token) {
         return fetch(`${this.baseAuthUrl}/users/me`, {
             credentials: 'include',
             method: 'GET',
@@ -120,7 +120,7 @@ class MainApi {
 }
 
 const auth = new MainApi({
-    baseAuthUrl: 'http://api.ddtihonov.students.nomoredomains.work',
+    baseAuthUrl: 'https://api.ddtihonov.students.nomoredomains.work',
     headers: {'Content-Type': 'application/json'}
 });
 

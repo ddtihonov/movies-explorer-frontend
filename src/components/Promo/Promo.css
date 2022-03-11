@@ -53,6 +53,10 @@
     border: 1px solid #FFF;
     padding: 0;
     transition: 300ms;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .promo__button:hover{
