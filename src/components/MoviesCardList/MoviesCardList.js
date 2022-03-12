@@ -4,7 +4,7 @@ import './MoviesCardList.css'
 import MoviesCard from '../MoviesCard/MoviesCard'
 import ScreenSize from '../../hooks/ScreenSize';
 
-export default function MoviesCardList ({loggedIn, Preloader, moviesList}) {
+export default function MoviesCardList ({loggedIn, Preloader, moviesList, onCardLike, onCardDelete}) {
 
     const routes  = useLocation()
     const [moviesTotal, setMoviesTotal] = useState(0);
@@ -41,7 +41,10 @@ export default function MoviesCardList ({loggedIn, Preloader, moviesList}) {
                 if (index + 1 <= moviesTotal) {
                     return <MoviesCard 
                     movie={item} 
-                    key={index} />;
+                    key={index}
+                    onCardLike={onCardLike}
+                    onCardDelete={onCardDelete}
+                    />;
                 } else {
                     return '';
                 }

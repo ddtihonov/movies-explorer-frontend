@@ -31,6 +31,9 @@ export default function App() {
    // Стейт карточек из BeatFilm
     const [moviesList, setMoviesList] = useState([]);
 
+    // Стейт карточек из нашего API
+    const [saveCards, setSaveCards] = useState([]);
+
     // Стейт карточек из Preloader
     const [isSubmitting, setIsSubmitting] = useState(false); 
 
@@ -52,21 +55,15 @@ export default function App() {
 
     // Эффект проверки авторизации на сайте
     useEffect(() => {
-        if (localStorage.isAuth) {
-            setIsSubmitting(true)
-                auth.getUserInfo()
+        if (loggedIn) {
+            auth.getUserInfo()
                 .then((userInfo) => {
-                    setCurrentUser(userInfo) 
-                    localStorage.setItem('currentUser', JSON.stringify(userInfo))  
-                    setLoggedIn(true);
-                })
-                .catch((err) => {
-                    setErr(err);
-                    navigate('/');
-                })
-                .finally(() => setIsSubmitting(false))
+                    setCurrentUser(userInfo);
+                    localStorage.setItem('currentUser', JSON.stringify(userInfo)) 
+                    })
+                    .catch((err) => setErr(err))
         }
-}, []);
+}, [loggedIn]);
 
     
     // регистрация
@@ -74,13 +71,16 @@ export default function App() {
         setIsSubmitting(true)
         auth.register({ name, password, email })
             .then((userData) => {
-                console.log(userData)
-                setInfoTooltipOpen(true)
-                setTimeout(() => {
-                    handleAuthorize({ email, password })
-                    setInfoTooltipOpen(false)
+                if (userData) {
+                    setInfoTooltipOpen(true)
+
+                    setTimeout(() => {
+                        handleAuthorize({ email, password })
+                        setInfoTooltipOpen(false)
                 },
-                    2000)
+                    1000)
+
+                }
     })
             .catch((err) => setErr(err))
             .finally(() => setIsSubmitting(false))
@@ -90,28 +90,44 @@ export default function App() {
     function handleAuthorize({ email, password }) {
         setIsSubmitting(true)
         auth.authorize({ email, password })
-            .then((userData) => {
+            .then((userInfo) => {
                 localStorage.setItem('isAuth', true)
-                setCurrentUser(userData)
-                localStorage.setItem('currentUser', JSON.stringify(userData))
+                setCurrentUser(userInfo)
+                localStorage.setItem('currentUser', JSON.stringify(userInfo))
                 setLoggedIn(true);
-                navigate('/movies');
+                navigate('/movies', { replace: false });
             })
             
             .catch((err) => setErr(err))
             .finally(() => setIsSubmitting(false))
     }
 
+    // обновить данные пользователя
+function chargingDataUser  ({ email, name })  {
+    setIsSubmitting(true)
+    auth.setUserInfo({ email, name })
+        .then((userInfo) => {
+            setInfoTooltipOpen(true)
+            setCurrentUser(userInfo)
+            localStorage.setItem('currentUser', JSON.stringify(userInfo))
+
+            setTimeout(() => {
+                setInfoTooltipOpen(false)
+            },
+            1000)
+        })
+        .catch((err) => setErr(err))
+        .finally(() => setIsSubmitting(false))
+}
 
     // выйти из аккаунта
-    function handleLogout () {
-        auth.deleteAuth()
-            .then(() => {
-            setCurrentUser()
+function handleLogout () {
+    auth.deleteAuth()
+        .then(() => {
+            setCurrentUser([])
             setLoggedIn(false);
             navigate('/')
             localStorage.clear()
-            sessionStorage.clear()
             })
             .catch((err) => setErr(err))
 }
@@ -121,12 +137,28 @@ export default function App() {
         setMessageErr('')
     }
 
+
+ // обработка ошибок запросов
     useEffect(() => {
                 if (err) {
-            setMessageErr(`${err}`)
+            setMessageErr(`Что то пошло не так ${err}!`)
             setInfoTooltipOpen(true)
         }
     }, [err])
+
+    // Функция добавления фильма в избранные
+function handleSaveFilm(movie) {
+    console.log('hi-hi')
+    setIsSubmitting(true)
+    auth.saveFilm(movie)
+        .then((movieInfo) => {
+        setSaveCards([...saveCards, movieInfo ]);
+        })
+        .catch((err) => setErr(err))
+        .finally(() => {
+        setIsSubmitting(false)
+    });
+}
 
 
 return (
@@ -159,7 +191,7 @@ return (
                     loggedIn={loggedIn}
                     moviesList={moviesList}
                     Preloader={Preloader}
-
+                    onCardLike={ handleSaveFilm}
                 />
             </ProtectedRoute>    
             }
@@ -170,6 +202,7 @@ return (
                     loggedIn={loggedIn}
                     moviesList={moviesList}
                     Preloader={Preloader}
+                    //onCardDelete={onCardDelete}
                 />
             </ProtectedRoute>    
             }
@@ -178,7 +211,8 @@ return (
             <ProtectedRoute loggedIn={loggedIn}>
                 <Profile
                     loggedIn={loggedIn}
-                    handleLogout={handleLogout} 
+                    handleLogout={handleLogout}
+                    chargingDataUser={chargingDataUser} 
                 />
             </ProtectedRoute>      
             }

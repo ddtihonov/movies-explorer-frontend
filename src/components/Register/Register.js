@@ -24,7 +24,9 @@ export default function Register ({onRegister}) {
         return(
         <div className='register'>
             <div className='register__container'>
+            <Link to='/' className='register__link-logo' target='_self'> 
                 <img className='register__image' src={logo} alt='смайл'/>
+            </Link> 
                 <h2 className='register__title'>Добро пожаловать!</h2>
                 <form className='register__form' onSubmit={handleSubmit}>
                     <label className='register__label'>Имя

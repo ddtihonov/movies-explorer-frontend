@@ -25,7 +25,9 @@ export default function Login ({onLogin}) {
         return(
         <section className='login'>
             <div className='login__container'>
+            <Link to='/' className='login__link-logo' target='_self'>
                 <img className='login__image' src={logo} alt='смайл'/>
+            </Link>
                 <h2 className='login__title'>Рады видеть!</h2>
                 <form className='login__form' onSubmit={handleSubmit}>
                     <label className='login__label'>E-mail

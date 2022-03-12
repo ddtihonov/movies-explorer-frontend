@@ -4,7 +4,7 @@ import './Profile.css'
 import Header from '../Header/Header';
 import { CurrentUser } from '../../context/CurrentUserContext';
 
-export default function Profile ({loggedIn, handleLogout, chargingData }) {
+export default function Profile ({loggedIn, handleLogout, chargingDataUser }) {
     
     const currentUser = React.useContext(CurrentUser);
     const [name, setName] = useState(currentUser.name);
@@ -41,8 +41,7 @@ export default function Profile ({loggedIn, handleLogout, chargingData }) {
 
     function handleSubmit(evt) {
         evt.preventDefault();
-        console.log('вася')
-        chargingData({ name, email });
+        chargingDataUser({ name, email });
     }
     
         return(

@@ -43,7 +43,7 @@ class MainApi {
     }
     
 
-    getUserInfo(token) {
+    getUserInfo() {
         return fetch(`${this.baseAuthUrl}/users/me`, {
             credentials: 'include',
             method: 'GET',
@@ -53,13 +53,15 @@ class MainApi {
     }
 
     setUserInfo({ name, email }) {
+        console.log(name)
+        console.log(email)
         return fetch(`${this.baseAuthUrl}/users/me`, {
             credentials: 'include',
             method: 'PATCH',
             headers: this.headers,
             body: JSON.stringify({
                 name: name,
-                about: email
+                email: email,
             })
         })
             .then(this._checkError);
@@ -110,6 +112,37 @@ class MainApi {
         })
         .then(this._checkError);
     }
+
+    saveFilm (movie) {
+        return fetch(`${this.baseAuthUrl}/movies`, {
+            method: "POST",
+            credentials: "include",
+            headers: this.headers,
+            body: JSON.stringify({
+            country: movie.country,
+            director: movie.director,
+            duration: movie.duration,
+            year: movie.year,
+            description: movie.description,
+            image: `https://api.nomoreparties.co${movie.image.url}`,
+            trailer: movie.trailerLink,
+            thumbnail: movie.trailerLink,
+            movieId: movie.id,
+            nameRU: movie.nameRU,
+            nameEN: movie.nameEN,
+            }),
+        })
+        .then(this._checkError);
+    };
+    
+    deleteFilm (movie) {
+        return fetch(`${this.baseAuthUrl}/movies/${movie._id}`, {
+            method: "DELETE",
+            credentials: "include",
+            headers: this.headers,
+        })
+        .then(this._checkError);  
+    };
 
     _checkError(res) {
         if (res.ok) {
