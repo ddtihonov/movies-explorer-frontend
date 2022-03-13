@@ -25,7 +25,7 @@
     background-color: #2F2F2F;
     display: flex;
     align-items: center;
-    margin: 0 auto 42px;
+    margin: 0 auto;
 }
 
 .search__input{
@@ -72,6 +72,8 @@
     line-height: 12px;
     color: #EE3465;
     text-align: center;
+    margin-top: 5px;
+    margin-bottom: 38px;
 }
 
 @media (max-width: 1280px){

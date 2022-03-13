@@ -37,7 +37,7 @@ export default function MoviesCardList ({Preloader, moviesList, onCardLike, onCa
             {message &&
                 <p className="movies__message">{message}</p>
             }
-            {moviesList.length === 0 ? (
+            {moviesList.length === 0 && !message ? (
             <Preloader />
             ) : (
             <ul className="movie-list__roster">

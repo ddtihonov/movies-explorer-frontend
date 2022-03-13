@@ -13,14 +13,13 @@ export default function Movies({ loggedIn, Preloader }) {
     const [shortListForRender, setShortListForRender] = useState([])
     const [queryString, setQueryString] = useState('')
     const [message, setMessage] = useState('')
-    let newList = JSON.parse(sessionStorage.getItem('baseMoviesList'))
 
     // Эффект обработки чекбокса
     useEffect(() => {
-        if (checkboxActive && listForRender.length) {
+        if (checkboxActive) {
             const newShortList = listForRender.filter(movie => movie.duration <= 40)
             newShortList.length ?
-                setShortListForRender(newShortList) : setMessage('Ничего не найдено')
+                setShortListForRender(newShortList) : setMessage('Ничего не найдено') && setListForRender([])
         } else {
             setShortListForRender([])
         }
@@ -29,18 +28,27 @@ export default function Movies({ loggedIn, Preloader }) {
 
 // Эффект обработки запроса от формы поиска
     useEffect(() => {
-    if (queryString) {
-        newList = JSON.parse(sessionStorage.getItem('baseMoviesList')).filter((movie) =>
-            movie.nameRU.toLowerCase().indexOf(queryString.toLowerCase()) > -1)
-            
-        if (newList.length) {
-            setListForRender(newList)
-            localStorage.setItem('listOfFound', JSON.stringify(newList))
-        } else {
-            setMessage('Ничего не найдено')
-        }
-    }
-}, [queryString, checkboxActive])
+        if (queryString) {
+            const newList = JSON.parse(sessionStorage.getItem('baseMoviesList')).filter((movie) =>
+                movie.nameRU.toLowerCase().indexOf(queryString.toLowerCase()) > -1)
+                if (newList.length) {
+                    setListForRender(newList)
+                    localStorage.setItem('listOfFound', JSON.stringify(newList))
+                } else {
+                    setMessage('Ничего не найдено')
+                    setListForRender([])
+                } 
+            } else {
+                const  newList = JSON.parse(sessionStorage.getItem('baseMoviesList'))
+                if (newList.length) {
+                    setListForRender(newList)
+                    localStorage.setItem('listOfFound', JSON.stringify(newList))
+                } else {
+                    setMessage('Ничего не найдено')
+                    setListForRender([])
+                } 
+            }
+        }, [queryString, checkboxActive])
 
 
     function handleCheckboxChange (isCheckboxOn) {
@@ -52,8 +60,6 @@ export default function Movies({ loggedIn, Preloader }) {
         setMessage('')
         setQueryString(query)
     }
-
-console.log(queryString)
 
     // при возврате - для отрисовки прошлого поиска
     useEffect(() => {
@@ -71,7 +77,7 @@ console.log(queryString)
             />
             <MoviesCardList
                 moviesList={
-                    shortListForRender.length ?
+                    checkboxActive ?
                         shortListForRender
                         :
                         listForRender
