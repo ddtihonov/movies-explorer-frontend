@@ -34,7 +34,7 @@ export default function SearchForm ({ handleSubmitSearchForm, handleCheckboxChan
     return (
         <section className='search'>
             <div className='search__container'>
-                <form className='search__form' onSubmit={handleSubmit} name='search-form'>
+                <form className={`${ inputIsEmpty ? 'search__form_error' : 'search__form'}`} onSubmit={handleSubmit} name='search-form'>
                     <div className='search__box'>
                         <input
                             className='search__input'

@@ -20,7 +20,7 @@ import Preloader from '../Preloader/Preolader';
 export default function App() {
 
     const navigate = useNavigate();
-    const {routes}  = useLocation();
+    const routes  = useLocation();
 
     // Стейт актуального пользователя
     const [currentUser, setCurrentUser] = useState();
@@ -41,30 +41,43 @@ export default function App() {
     const [messageErr, setMessageErr] = useState('')
     const [err, setErr] = useState('')
 
+// Эффект проверки авторизации на сайте
+useEffect(() => {
+    setIsSubmitting(true)
+    if (localStorage.isAuth) {
+        setLoggedIn(true);    
+        auth.getUserInfo()
+            .then((userInfo) => {
+                setLoggedIn(true);  
+                setCurrentUser(userInfo);
+                localStorage.setItem('currentUser', JSON.stringify(userInfo)) 
+                navigate(routes.pathname);
+                })
+                .catch((err) => {
+                    navigate('/signin');
+                    setErr(err)
+                })
+                .finally(() => setIsSubmitting(false))
+            }
+}, []);
 
- // Эффект запроса карточек от BeatFilms
+ // Эффект запроса карточек
     useEffect(() => {
         api.getInitialCards()
             .then((cardsInfo) => {
                 setMoviesList(cardsInfo);
                 sessionStorage.setItem('baseMoviesList', JSON.stringify(cardsInfo))
             })
-            .catch((err) => {
-                console.log(`Внимание! ${err}`);
-            });
-    }, []);
+            .catch((err) => setErr(err))
 
-    // Эффект проверки авторизации на сайте
-    useEffect(() => {
-        if (loggedIn) {
-            auth.getUserInfo()
-                .then((userInfo) => {
-                    setCurrentUser(userInfo);
-                    localStorage.setItem('currentUser', JSON.stringify(userInfo)) 
-                    })
-                    .catch((err) => setErr(err))
-        }
-}, [loggedIn]);
+        auth.getMyMovies()
+            .then((cardsInfo) => {
+                console.log(cardsInfo)
+            //setMoviesList(cardsInfo);
+                sessionStorage.setItem('likeMoviesList', JSON.stringify(cardsInfo))
+            })
+            .catch((err) => setErr(err))
+    }, []);
 
     
     // регистрация
@@ -76,7 +89,7 @@ export default function App() {
                     setInfoTooltipOpen(true)
 
                     setTimeout(() => {
-                        handleAuthorize({ email, password })
+                        navigate('/signin');
                         setInfoTooltipOpen(false)
                 },
                     1000)
@@ -96,7 +109,7 @@ export default function App() {
                 setCurrentUser(userInfo)
                 localStorage.setItem('currentUser', JSON.stringify(userInfo))
                 setLoggedIn(true);
-                navigate('/movies', { replace: false });
+                navigate('/movies');
             })
             
             .catch((err) => setErr(err))
@@ -164,12 +177,11 @@ function handleSaveFilm(movie) {
 
 return (
 <CurrentUser.Provider value={currentUser}>    
-<>
     <Routes>
-        <Route exact path='/'  element={
+        <Route  path='/'  element={
             <Main/>
         } />       
-        <Route exact path='/signup' element={
+        <Route  exact path='/signup' element={
             <Register
                 onRegister={handleRegister}
                 messageErr={messageErr}
@@ -186,7 +198,9 @@ return (
                 messageErr={messageErr}
             />
             } />
-        <Route exact path='/movies'  element={
+        <Route  
+        path='/movies'  
+        element={
             <ProtectedRoute loggedIn={loggedIn}>
                 <Movies
                     loggedIn={loggedIn}
@@ -196,7 +210,9 @@ return (
             </ProtectedRoute>    
             }
         />
-        <Route exact path='/saved-movies'  element={
+        <Route 
+        path='/saved-movies'  
+        element={
             <ProtectedRoute loggedIn={loggedIn}>
                 <SavedMovies
                     loggedIn={loggedIn}
@@ -207,7 +223,9 @@ return (
             </ProtectedRoute>    
             }
         />
-        <Route exact path='/profile'  element={
+        <Route  
+        path='/profile'  
+        element={
             <ProtectedRoute loggedIn={loggedIn}>
                 <Profile
                     loggedIn={loggedIn}
@@ -226,7 +244,6 @@ return (
         />
         }
     {isSubmitting && <Preloader />}
-</>
 </CurrentUser.Provider>
 );
 }

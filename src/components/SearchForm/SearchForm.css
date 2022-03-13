@@ -25,6 +25,16 @@
     background-color: #2F2F2F;
     display: flex;
     align-items: center;
+    margin: 0 auto 45px;
+}
+
+.search__form_error{
+    width: 100%;
+    height: 46px;
+    border-radius: 40px;
+    background-color: #2F2F2F;
+    display: flex;
+    align-items: center;
     margin: 0 auto;
 }
 
