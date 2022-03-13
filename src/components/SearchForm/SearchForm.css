@@ -30,6 +30,7 @@
 
 .search__input{
     background-color: transparent;
+    width: 90%;
     border: none;
     font-size: 13px;
     line-height:17px;
@@ -63,6 +64,14 @@
     max-width: 1140px;
     border-bottom: 1px solid #424242;
     margin: 0 auto 10px;
+}
+
+.search__input-error{
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    color: #EE3465;
+    text-align: center;
 }
 
 @media (max-width: 1280px){

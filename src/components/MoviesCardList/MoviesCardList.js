@@ -4,7 +4,7 @@ import './MoviesCardList.css'
 import MoviesCard from '../MoviesCard/MoviesCard'
 import ScreenSize from '../../hooks/ScreenSize';
 
-export default function MoviesCardList ({loggedIn, Preloader, moviesList, onCardLike, onCardDelete}) {
+export default function MoviesCardList ({Preloader, moviesList, onCardLike, onCardDelete, message}) {
 
     const routes  = useLocation()
     const [moviesTotal, setMoviesTotal] = useState(0);
@@ -27,12 +27,16 @@ export default function MoviesCardList ({loggedIn, Preloader, moviesList, onCard
         getCards();
     }, [width]);
 
+
     function addCards() {
         setMoviesTotal(moviesTotal + addMovies);
     }
 
     return (
         <section className='movie-list'>
+            {message &&
+                <p className="movies__message">{message}</p>
+            }
             {moviesList.length === 0 ? (
             <Preloader />
             ) : (
@@ -51,7 +55,7 @@ export default function MoviesCardList ({loggedIn, Preloader, moviesList, onCard
                 })}
             </ul>
         )}
-        { moviesTotal < 100 && routes.pathname === '/movies' && (
+        { moviesTotal < 100 && routes.pathname === '/movies' && !message && (
             <button  className='movie-list__button movie-list__hover' onClick={addCards}>Ещё
             </button>
         )}

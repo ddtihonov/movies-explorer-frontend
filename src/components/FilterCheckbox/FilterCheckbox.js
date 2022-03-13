@@ -1,11 +1,7 @@
 import React from "react";
 import './FilterCheckbox.css';
 
-export default function FilterCheckbox () {
-
-    function handleFilterShortMovies() {
-        console.log('Привет медвед')
-    }
+export default function FilterCheckbox ({listenCheckbox}) {
 
     return (
         <div className="checkbox">
@@ -13,7 +9,7 @@ export default function FilterCheckbox () {
                 className="checkbox__input"
                 id="chec"
                 type="checkbox"
-                onClick={handleFilterShortMovies}
+                onChange={listenCheckbox}
             />
             <label className="checkbox__label" htmlFor="chec">
             Короткометражки

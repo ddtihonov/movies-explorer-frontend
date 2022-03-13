@@ -47,6 +47,7 @@ export default function App() {
         api.getInitialCards()
             .then((cardsInfo) => {
                 setMoviesList(cardsInfo);
+                sessionStorage.setItem('baseMoviesList', JSON.stringify(cardsInfo))
             })
             .catch((err) => {
                 console.log(`Внимание! ${err}`);
@@ -189,7 +190,6 @@ return (
             <ProtectedRoute loggedIn={loggedIn}>
                 <Movies
                     loggedIn={loggedIn}
-                    moviesList={moviesList}
                     Preloader={Preloader}
                     onCardLike={ handleSaveFilm}
                 />
