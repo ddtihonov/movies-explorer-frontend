@@ -43,7 +43,7 @@ export default function MoviesCardList ({moviesList, onCardLike, onCardDelete, m
                     && moviesList.map((item, index) => {
                 if (index + 1 <= moviesTotal) {
                     return <MoviesCard 
-                    movie={item} 
+                    movieData={item} 
                     key={index}
                     onCardLike={onCardLike}
                     favoriteMoviesList ={favoriteMoviesList}
@@ -57,7 +57,7 @@ export default function MoviesCardList ({moviesList, onCardLike, onCardDelete, m
                     && favoriteMoviesList.map((item, index) => {
                 if (index + 1 <= moviesTotal) {
                     return <MoviesCard 
-                    movie={item} 
+                    movieData={item} 
                     key={index}
                     onCardDelete={onCardDelete}
                     favoriteMoviesList={favoriteMoviesList}

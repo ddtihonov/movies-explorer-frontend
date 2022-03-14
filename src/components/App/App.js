@@ -49,7 +49,7 @@ useEffect(() => {
                 })
                 .catch((err) => {
                     navigate('/signin');
-                    setErr(err)
+                    console.log(`Внимание! ${err}`);
                 })
                 .finally(() => setIsSubmitting(false))
             }
@@ -70,7 +70,9 @@ useEffect(() => {
                 console.log(cardsInfo)
                 sessionStorage.setItem('likeMoviesList', JSON.stringify(cardsInfo))
             })
-            .catch((err) => setErr(err))
+            .catch((err) => {
+                console.log(`Внимание! ${err}`);
+            })
             .finally(() => setIsSubmitting(false))
     }, []);
 
@@ -107,7 +109,9 @@ useEffect(() => {
                 navigate('/movies');
             })
             
-            .catch((err) => setErr(err))
+            .catch((err) => {
+                console.log(`Внимание! ${err}`);
+            }) 
             .finally(() => setIsSubmitting(false))
     }
 
@@ -138,7 +142,9 @@ function handleLogout () {
             navigate('/')
             localStorage.clear()
             })
-            .catch((err) => setErr(err))
+            .catch((err) => {
+                console.log(`Внимание! ${err}`);
+            });
 }
 
     const closePopup = () => {
@@ -154,32 +160,6 @@ function handleLogout () {
             setInfoTooltipOpen(true)
         }
     }, [err])
-
-    // Функция добавления фильма в избранные
-function handleSaveFilm(movie) {
-    setIsSubmitting(true)
-    auth.saveFilm(movie)
-        .then((movieInfo) => {
-            sessionStorage.setItem('likeMoviesList', JSON.stringify(movieInfo))
-        })
-        .catch((err) => setErr(err))
-        .finally(() => {
-        setIsSubmitting(false)
-    });
-}
-
-function handleDeleteFilm (movie) {
-    console.log('баста')
-    setIsSubmitting(true)
-    auth.deleteFilm (movie)
-    .then((movieInfo) => {
-        sessionStorage.setItem('likeMoviesList', JSON.stringify(movieInfo))
-        })
-        .catch((err) => setErr(err))
-        .finally(() => {
-        setIsSubmitting(false)
-    });
-};
 
 
 return (
@@ -211,8 +191,6 @@ return (
             <ProtectedRoute loggedIn={loggedIn}>
                 <Movies
                     loggedIn={loggedIn}
-                    onCardLike={ handleSaveFilm}
-                    onCardDelete={handleDeleteFilm}
                 />
             </ProtectedRoute>    
             }
@@ -223,7 +201,6 @@ return (
             <ProtectedRoute loggedIn={loggedIn}>
                 <SavedMovies
                     loggedIn={loggedIn}
-                    onCardDelete={handleDeleteFilm}
                 />
             </ProtectedRoute>    
             }

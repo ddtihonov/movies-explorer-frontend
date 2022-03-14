@@ -6,7 +6,7 @@ import SearchForm from '../SearchForm/SearchForm';
 import './Movies.css'
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-export default function Movies({ loggedIn, onCardLike, onCardDelete }) {
+export default function Movies({ loggedIn }) {
 
     const [checkboxActive, setCheckboxActive] = useState(false)
     const [listForRender, setListForRender] = useState([])
@@ -83,8 +83,6 @@ export default function Movies({ loggedIn, onCardLike, onCardDelete }) {
                         listForRender
                 }
                 message={message}
-                onCardLike={ onCardLike}
-                onCardDelete={onCardDelete}
             />
             <Footer/>
         </section>
