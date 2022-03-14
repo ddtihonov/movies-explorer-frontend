@@ -46,6 +46,7 @@ export default function MoviesCardList ({moviesList, onCardLike, onCardDelete, m
                     movie={item} 
                     key={index}
                     onCardLike={onCardLike}
+                    favoriteMoviesList ={favoriteMoviesList}
                     />;
                 } else {
                     return '';
@@ -59,6 +60,7 @@ export default function MoviesCardList ({moviesList, onCardLike, onCardDelete, m
                     movie={item} 
                     key={index}
                     onCardDelete={onCardDelete}
+                    favoriteMoviesList={favoriteMoviesList}
                     />;
                 } else {
                     return '';

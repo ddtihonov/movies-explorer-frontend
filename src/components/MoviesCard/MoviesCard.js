@@ -2,12 +2,16 @@ import React, {useState} from 'react'
 import { useLocation } from 'react-router';
 import './MoviesCard.css'
 
-export default function MoviesCard ({movie, onCardLike, onCardDelete }) {
+export default function MoviesCard ({movie, onCardLike, onCardDelete, favoriteMoviesList }) {
 
     const  routes  = useLocation()
 
     //Стейт лайка карточки
     const [isSavedMovie, setIsSavedMovie] = useState(false);
+
+    function isFavorite() {
+        //return favoriteMoviesList.some((item) => item.movieId === movie.id);
+    }
 
     const url =
     movie.image.url === undefined
@@ -33,9 +37,9 @@ export default function MoviesCard ({movie, onCardLike, onCardDelete }) {
         <li className='movie'>
             <div className='movie__container'>
                 { routes.pathname === '/movies' ? (
-                    <button type='submit' onClick={() => setIsSavedMovie(isSavedMovie === false ? true : false)} 
-                    className={`movie__button ${isSavedMovie ? 'movie__button-like' : 'movie__button-norm'}`} 
-                    >{`${isSavedMovie ? '' : 'Сохранить'}`}</button>
+                    <button type='submit' onClick={isFavorite() ? handleDeleteClick : handleLikeClick} 
+                    className={`movie__button ${isFavorite() ? 'movie__button-like' : 'movie__button-norm'}`} 
+                    >{`${isFavorite() ? '' : 'Сохранить'}`}</button>
                 ) : (
                     <button type='submit' 
                     className='movie__button movie__button-save' 

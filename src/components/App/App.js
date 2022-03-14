@@ -28,10 +28,7 @@ export default function App() {
     // Стейт  авторизации
     const [loggedIn, setLoggedIn] = useState(false);
 
-    // Стейт карточек из нашего API
-    const [saveCards, setSaveCards] = useState([]);
-
-    // Стейт карточек из Preloader
+    // Стейт  Preloader
     const [isSubmitting, setIsSubmitting] = useState(false); 
 
     const [infoTooltipOpen, setInfoTooltipOpen] = useState(false)
@@ -160,17 +157,29 @@ function handleLogout () {
 
     // Функция добавления фильма в избранные
 function handleSaveFilm(movie) {
-    console.log('hi-hi')
     setIsSubmitting(true)
     auth.saveFilm(movie)
         .then((movieInfo) => {
-        setSaveCards([...saveCards, movieInfo ]);
+            sessionStorage.setItem('likeMoviesList', JSON.stringify(movieInfo))
         })
         .catch((err) => setErr(err))
         .finally(() => {
         setIsSubmitting(false)
     });
 }
+
+function handleDeleteFilm (movie) {
+    console.log('баста')
+    setIsSubmitting(true)
+    auth.deleteFilm (movie)
+    .then((movieInfo) => {
+        sessionStorage.setItem('likeMoviesList', JSON.stringify(movieInfo))
+        })
+        .catch((err) => setErr(err))
+        .finally(() => {
+        setIsSubmitting(false)
+    });
+};
 
 
 return (
@@ -203,6 +212,7 @@ return (
                 <Movies
                     loggedIn={loggedIn}
                     onCardLike={ handleSaveFilm}
+                    onCardDelete={handleDeleteFilm}
                 />
             </ProtectedRoute>    
             }
@@ -213,6 +223,7 @@ return (
             <ProtectedRoute loggedIn={loggedIn}>
                 <SavedMovies
                     loggedIn={loggedIn}
+                    onCardDelete={handleDeleteFilm}
                 />
             </ProtectedRoute>    
             }

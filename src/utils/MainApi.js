@@ -135,7 +135,7 @@ class MainApi {
         .then(this._checkError);
     };
     
-    deleteFilm (movie) {
+    deleteFilm(movie) {
         return fetch(`${this.baseAuthUrl}/movies/${movie._id}`, {
             method: "DELETE",
             credentials: "include",

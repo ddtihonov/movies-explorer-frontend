@@ -7,7 +7,6 @@ import './SavedMovies.css'
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
 export default function SavedMovies({loggedIn, onCardDelete}) {
-    
 
 const [checkboxActive, setCheckboxActive] = useState(false)
 const [favoriteListForRender, setFavoriteListForRender] = useState([])
