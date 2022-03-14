@@ -28,9 +28,6 @@ export default function App() {
     // Стейт  авторизации
     const [loggedIn, setLoggedIn] = useState(false);
 
-   // Стейт карточек из BeatFilm
-    const [moviesList, setMoviesList] = useState([]);
-
     // Стейт карточек из нашего API
     const [saveCards, setSaveCards] = useState([]);
 
@@ -63,20 +60,21 @@ useEffect(() => {
 
  // Эффект запроса карточек
     useEffect(() => {
+        setIsSubmitting(true)
         api.getInitialCards()
             .then((cardsInfo) => {
-                setMoviesList(cardsInfo);
                 sessionStorage.setItem('baseMoviesList', JSON.stringify(cardsInfo))
             })
             .catch((err) => setErr(err))
+            .finally(() => setIsSubmitting(false))
 
         auth.getMyMovies()
             .then((cardsInfo) => {
                 console.log(cardsInfo)
-            //setMoviesList(cardsInfo);
                 sessionStorage.setItem('likeMoviesList', JSON.stringify(cardsInfo))
             })
             .catch((err) => setErr(err))
+            .finally(() => setIsSubmitting(false))
     }, []);
 
     
@@ -204,7 +202,6 @@ return (
             <ProtectedRoute loggedIn={loggedIn}>
                 <Movies
                     loggedIn={loggedIn}
-                    Preloader={Preloader}
                     onCardLike={ handleSaveFilm}
                 />
             </ProtectedRoute>    
@@ -216,9 +213,6 @@ return (
             <ProtectedRoute loggedIn={loggedIn}>
                 <SavedMovies
                     loggedIn={loggedIn}
-                    moviesList={moviesList}
-                    Preloader={Preloader}
-                    //onCardDelete={onCardDelete}
                 />
             </ProtectedRoute>    
             }

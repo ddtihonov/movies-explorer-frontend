@@ -4,7 +4,7 @@ import './MoviesCardList.css'
 import MoviesCard from '../MoviesCard/MoviesCard'
 import ScreenSize from '../../hooks/ScreenSize';
 
-export default function MoviesCardList ({Preloader, moviesList, onCardLike, onCardDelete, message}) {
+export default function MoviesCardList ({moviesList, onCardLike, onCardDelete, message, favoriteMoviesList}) {
 
     const routes  = useLocation()
     const [moviesTotal, setMoviesTotal] = useState(0);
@@ -37,16 +37,27 @@ export default function MoviesCardList ({Preloader, moviesList, onCardLike, onCa
             {message &&
                 <p className="movies__message">{message}</p>
             }
-            {moviesList.length === 0 && !message ? (
-            <Preloader />
-            ) : (
             <ul className="movie-list__roster">
-                {moviesList.map((item, index) => {
+                {routes.pathname === '/movies' &&
+                    moviesList 
+                    && moviesList.map((item, index) => {
                 if (index + 1 <= moviesTotal) {
                     return <MoviesCard 
                     movie={item} 
                     key={index}
                     onCardLike={onCardLike}
+                    />;
+                } else {
+                    return '';
+                }
+                })}
+                {routes.pathname === '/saved-movies' &&
+                    favoriteMoviesList 
+                    && favoriteMoviesList.map((item, index) => {
+                if (index + 1 <= moviesTotal) {
+                    return <MoviesCard 
+                    movie={item} 
+                    key={index}
                     onCardDelete={onCardDelete}
                     />;
                 } else {
@@ -54,7 +65,6 @@ export default function MoviesCardList ({Preloader, moviesList, onCardLike, onCa
                 }
                 })}
             </ul>
-        )}
         { moviesTotal < 100 && routes.pathname === '/movies' && !message && (
             <button  className='movie-list__button movie-list__hover' onClick={addCards}>Ещё
             </button>

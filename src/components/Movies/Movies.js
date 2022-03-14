@@ -6,27 +6,20 @@ import SearchForm from '../SearchForm/SearchForm';
 import './Movies.css'
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-export default function Movies({ loggedIn, Preloader }) {
+export default function Movies({ loggedIn, onCardLike }) {
 
     const [checkboxActive, setCheckboxActive] = useState(false)
     const [listForRender, setListForRender] = useState([])
     const [shortListForRender, setShortListForRender] = useState([])
     const [queryString, setQueryString] = useState('')
     const [message, setMessage] = useState('')
-
-    // Эффект обработки чекбокса
+    
+    // при возврате - для отрисовки прошлого поиска
     useEffect(() => {
-        if (checkboxActive) {
-            const newShortList = listForRender.filter(movie => movie.duration <= 40)
-            newShortList.length ?
-                setShortListForRender(newShortList) : setMessage('Ничего не найдено') && setListForRender([])
-        } else {
-            setShortListForRender([])
-        }
-    }, [checkboxActive, listForRender])
-
-
-// Эффект обработки запроса от формы поиска
+        localStorage.listOfFound && setListForRender(JSON.parse(localStorage.getItem('listOfFound')))
+    }, [checkboxActive])
+    
+    // Эффект обработки запроса от формы поиска
     useEffect(() => {
         if (queryString) {
             const newList = JSON.parse(sessionStorage.getItem('baseMoviesList')).filter((movie) =>
@@ -50,6 +43,17 @@ export default function Movies({ loggedIn, Preloader }) {
             }
         }, [queryString, checkboxActive])
 
+    // Эффект обработки чекбокса
+    useEffect(() => {
+        if (checkboxActive) {
+            const newShortList = listForRender.filter(movie => movie.duration <= 40)
+            newShortList.length ?
+                setShortListForRender(newShortList) : setMessage('Ничего не найдено') && setListForRender([])
+        } else {
+            setShortListForRender([])
+        }
+    }, [checkboxActive, listForRender])
+
 
     function handleCheckboxChange (isCheckboxOn) {
         setMessage('')
@@ -61,10 +65,6 @@ export default function Movies({ loggedIn, Preloader }) {
         setQueryString(query)
     }
 
-    // при возврате - для отрисовки прошлого поиска
-    useEffect(() => {
-        localStorage.listOfFound && setListForRender(JSON.parse(localStorage.getItem('listOfFound')))
-    }, [checkboxActive])
     
     return (
         <section className='movies'>
@@ -83,7 +83,7 @@ export default function Movies({ loggedIn, Preloader }) {
                         listForRender
                 }
                 message={message}
-                Preloader={Preloader}
+                onCardLike={ onCardLike}
             />
             <Footer/>
         </section>
