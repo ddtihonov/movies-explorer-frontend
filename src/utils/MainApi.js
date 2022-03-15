@@ -1,77 +1,72 @@
-class MainApi {
-    constructor({baseAuthUrl, headers }) {
-        this.baseAuthUrl = baseAuthUrl;
-        this.headers = headers
+
+    
+    export const register = (password, email, name) => {
+        return fetch('https://api.ddtihonov.students.nomoredomains.work/signup', {
+            credentials: 'include',
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+        },
+            body: JSON.stringify({ 
+                password, 
+                email, 
+                name }),
+        })
+        .then((res) => checkError(res));
     };
 
-    register({ name, password, email, }) {
-        return fetch(`${this.baseAuthUrl}/signup`, {
+    export const authorize = ({ email, password }) => {
+        return fetch('https://api.ddtihonov.students.nomoredomains.work/signin', {
             credentials: 'include',
             method: 'POST',
-            headers: this.headers,
-            body: JSON.stringify({
-                name: name,
-                email: email,
-                password: password
-            }),
-        })
-        .then(this._checkError);
-    }
-
-    authorize({ email, password }) {
-        return fetch(`${this.baseAuthUrl}/signin`, {
-            credentials: 'include',
-            method: 'POST',
-            headers: this.headers,
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 email: email,
                 password: password
             }),
             })
 
-        .then(this._checkError);
+            .then((res) => checkError(res));
     }
 
-    deleteAuth () {
-        return fetch(`${this.baseAuthUrl}/signout`, {
+    export const deleteAuth = () =>{
+        return fetch('https://api.ddtihonov.students.nomoredomains.work/signout', {
             credentials: 'include',
             method: 'DELETE',
-            headers: this.headers,
+            headers: {'Content-Type': 'application/json'},
         })
 
-        .then(this._checkError);
+            .then((res) => checkError(res));
     }
     
 
-    getUserInfo() {
-        return fetch(`${this.baseAuthUrl}/users/me`, {
+    export const getUserInfo = () => {
+        return fetch('https://api.ddtihonov.students.nomoredomains.work/users/me', {
             credentials: 'include',
             method: 'GET',
-            headers: this.headers
+            headers: {'Content-Type': 'application/json'},
         })
-            .then(this._checkError);
+            .then((res) => checkError(res));
     }
 
-    setUserInfo({ name, email }) {
-        console.log(name)
-        console.log(email)
-        return fetch(`${this.baseAuthUrl}/users/me`, {
+    export const setUserInfo = ({ name, email }) => {
+        return fetch('https://api.ddtihonov.students.nomoredomains.work/users/me', {
             credentials: 'include',
             method: 'PATCH',
-            headers: this.headers,
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 name: name,
                 email: email,
             })
         })
-            .then(this._checkError);
+            .then((res) => checkError(res));
     }
 
-    addToMyMoviesList (movie) {
-        return fetch(`${this.baseAuthUrl}/movies`, {
+    /*export const addToMyMoviesList = (movie) => {
+        return fetch('https://api.ddtihonov.students.nomoredomains.work/movies', {
             credentials: 'include',
             method: 'POST',
-            headers: this.headers,
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 country: movie.country,
                 director: movie.director,
@@ -92,32 +87,14 @@ class MainApi {
                     `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`
             })
         })
-        .then(this._checkError);
-    }
-    
-    getMyMovies () {
-        return fetch(`${this.baseAuthUrl}/movies`, {
-            credentials: 'include',
-            method: 'GET',
-            headers: this.headers,
-        })
-        .then(this._checkError);
-    }
-    
-    deleteFromMyMoviesList (_id) {
-        return fetch(`${this.baseAuthUrl}/movies/${_id}`, {
-            credentials: 'include',
-            method: 'DELETE',
-            headers: this.headers,
-        })
-        .then(this._checkError);
-    }
+            .then((res) => checkError(res));
+    }*/
 
-    saveFilm (movie) {
-        return fetch(`${this.baseAuthUrl}/movies`, {
+    export const saveFilm = (movie) => {
+        return fetch('https://api.ddtihonov.students.nomoredomains.work/movies', {
             method: "POST",
             credentials: "include",
-            headers: this.headers,
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
             country: movie.country,
             director: movie.director,
@@ -132,29 +109,39 @@ class MainApi {
             nameEN: movie.nameEN,
             }),
         })
-        .then(this._checkError);
+            .then((res) => checkError(res));
     };
     
-    deleteFilm(movie) {
-        return fetch(`${this.baseAuthUrl}/movies/${movie._id}`, {
+    export const getMyMovies = () =>{
+        return fetch('https://api.ddtihonov.students.nomoredomains.work/movies', {
+            credentials: 'include',
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then((res) => checkError(res));
+    }
+    
+    export const deleteFromMyMoviesList = (_id) => {
+        return fetch(`https://api.ddtihonov.students.nomoredomains.work/movies/${_id}`, {
+            credentials: 'include',
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'},
+        })
+            .then((res) => checkError(res));
+    }/////////////
+    
+    export const deleteFilm = (movie) => {
+        return fetch(`https://api.ddtihonov.students.nomoredomains.work/movies/${movie._id}`, {
             method: "DELETE",
             credentials: "include",
-            headers: this.headers,
+            headers: {'Content-Type': 'application/json'},
         })
-        .then(this._checkError);  
+            .then((res) => checkError(res));
     };
 
-    _checkError(res) {
+    const checkError = (res) =>{
         if (res.ok) {
             return res.json();
         }
-        return Promise.reject(`Ошибка: ${res.status}`);
+        return Promise.reject(`Ошибка: ${res.status} : ${res.statusText}`);
     }
-}
-
-const auth = new MainApi({
-    baseAuthUrl: 'https://api.ddtihonov.students.nomoredomains.work',
-    headers: {'Content-Type': 'application/json'}
-});
-
-export default auth

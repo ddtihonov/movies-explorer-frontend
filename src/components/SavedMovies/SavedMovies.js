@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
 import SearchForm from '../SearchForm/SearchForm';
 
 import './SavedMovies.css'
@@ -62,9 +60,6 @@ const handleSubmitSearchForm = (query) => {
 
     return (
         <section className='saved-movies'>
-            <Header
-                loggedIn={loggedIn}
-            />
             <SearchForm
                 handleSubmitSearchForm={handleSubmitSearchForm}
                 handleCheckboxChange={handleCheckboxChange}
@@ -78,7 +73,6 @@ const handleSubmitSearchForm = (query) => {
                 }
                 message={message}
             />
-            <Footer/>
         </section>
     );
     }

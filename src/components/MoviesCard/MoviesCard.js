@@ -1,6 +1,6 @@
 import React, {useState,  useContext} from 'react'
 import { useLocation } from 'react-router';
-import auth from '../../utils/MainApi';
+import {saveFilm, deleteFilm} from '../../utils/MainApi';
 import { CurrentUser } from '../../context/CurrentUserContext';
 import './MoviesCard.css';
 
@@ -11,10 +11,12 @@ export default function MoviesCard ({ movieData }) {
 
     //Стейт лайка карточки
     const [isSavedMovie, setIsSavedMovie] = useState(movieData);
+
+    //console.log(isSavedMovie)
     
     const [saved, setSaved] = useState(movieData.owner === currentUser._id)
 
-    console.log(saved)
+    //console.log(saved)
 
     const updateLocalLists = (movieInfo) => {
         // /movies
@@ -44,11 +46,11 @@ export default function MoviesCard ({ movieData }) {
 
 // Функция добавления фильма в избранные
 function handleSaveFilm() {
-    auth.saveFilm(isSavedMovie)
+    saveFilm(isSavedMovie)
         .then((movieInfo) => {
             setSaved(true)
             setIsSavedMovie(movieInfo)
-            updateLocalLists(movieInfo)
+            //updateLocalLists(movieInfo)
         })
         .catch((err) => {
             console.log(`Внимание! ${err}`);
@@ -56,7 +58,7 @@ function handleSaveFilm() {
 }
 
 function handleDeleteFilm () {
-    auth.deleteFilm (isSavedMovie)
+    deleteFilm (isSavedMovie)
     .then((movieInfo) => {
         sessionStorage.setItem('likeMoviesList', JSON.stringify(movieInfo))
         })

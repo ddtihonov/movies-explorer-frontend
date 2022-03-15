@@ -7,8 +7,16 @@ import Login from '../Login/Login';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
+import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-import auth from '../../utils/MainApi';
+import {
+    register, 
+    authorize, 
+    deleteAuth, 
+    getUserInfo, 
+    setUserInfo, 
+    getMyMovies} from '../../utils/MainApi';
 import api from '../../utils/MoviesApi';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import { CurrentUser } from '../../context/CurrentUserContext';
@@ -21,6 +29,17 @@ export default function App() {
 
     const navigate = useNavigate();
     const routes  = useLocation();
+
+    const isFooter =
+    routes.pathname !== '/profile' && 
+    routes.pathname !== '/signin' && 
+    routes.pathname !== '/signup';
+
+    const isHeader =
+    routes.pathname === '/movies' ||
+    routes.pathname === '/' ||
+    routes.pathname === '/saved-movies' ||
+    routes.pathname === '/profile';
 
     // Стейт актуального пользователя
     const [currentUser, setCurrentUser] = useState();
@@ -37,22 +56,20 @@ export default function App() {
 
 // Эффект проверки авторизации на сайте
 useEffect(() => {
-    setIsSubmitting(true)
     if (localStorage.isAuth) {
-        setLoggedIn(true);    
-        auth.getUserInfo()
+        setLoggedIn(true);
+        getUserInfo()
             .then((userInfo) => {
-                setLoggedIn(true);  
                 setCurrentUser(userInfo);
                 localStorage.setItem('currentUser', JSON.stringify(userInfo)) 
                 navigate(routes.pathname);
-                })
+                        })
                 .catch((err) => {
                     navigate('/signin');
                     console.log(`Внимание! ${err}`);
                 })
                 .finally(() => setIsSubmitting(false))
-            }
+    }              
 }, []);
 
  // Эффект запроса карточек
@@ -65,7 +82,7 @@ useEffect(() => {
             .catch((err) => setErr(err))
             .finally(() => setIsSubmitting(false))
 
-        auth.getMyMovies()
+        getMyMovies()
             .then((cardsInfo) => {
                 console.log(cardsInfo)
                 sessionStorage.setItem('likeMoviesList', JSON.stringify(cardsInfo))
@@ -80,7 +97,7 @@ useEffect(() => {
     // регистрация
     function handleRegister({ name, email, password }) {
         setIsSubmitting(true)
-        auth.register({ name, password, email })
+        register({ name, password, email })
             .then((userData) => {
                 if (userData) {
                     setInfoTooltipOpen(true)
@@ -100,11 +117,12 @@ useEffect(() => {
     // авторизация
     function handleAuthorize({ email, password }) {
         setIsSubmitting(true)
-        auth.authorize({ email, password })
+        authorize({ email, password })
             .then((userInfo) => {
                 localStorage.setItem('isAuth', true)
                 setCurrentUser(userInfo)
                 localStorage.setItem('currentUser', JSON.stringify(userInfo))
+                //updateMoviesLists()
                 setLoggedIn(true);
                 navigate('/movies');
             })
@@ -118,8 +136,9 @@ useEffect(() => {
     // обновить данные пользователя
 function chargingDataUser  ({ email, name })  {
     setIsSubmitting(true)
-    auth.setUserInfo({ email, name })
+    setUserInfo({ email, name })
         .then((userInfo) => {
+            localStorage.setItem('isAuth', true)
             setInfoTooltipOpen(true)
             setCurrentUser(userInfo)
             localStorage.setItem('currentUser', JSON.stringify(userInfo))
@@ -135,7 +154,7 @@ function chargingDataUser  ({ email, name })  {
 
     // выйти из аккаунта
 function handleLogout () {
-    auth.deleteAuth()
+    deleteAuth()
         .then(() => {
             setCurrentUser([])
             setLoggedIn(false);
@@ -163,69 +182,75 @@ function handleLogout () {
 
 
 return (
-<CurrentUser.Provider value={currentUser}>    
-    <Routes>
-        <Route  path='/'  element={
-            <Main/>
-        } />       
-        <Route  exact path='/signup' element={
-            <Register
-                onRegister={handleRegister}
-                messageErr={messageErr}
-            />
-        } />
-        <Route path='*' element={
-            <PageNotFound />
-        }/>
-        <Route exact path='/signin' element={
-            <Login
-                onLogin={handleAuthorize}
-                navigate={navigate}
-                loggedIn={loggedIn}
-                messageErr={messageErr}
-            />
+<CurrentUser.Provider value={currentUser}>
+    <div className="page">
+        {isHeader && <Header  loggedIn={loggedIn} />}
+        {isSubmitting ? 
+        (<Preloader /> ) : 
+        (<Routes>
+            <Route  path='/'  element={
+                <Main/>
+            } />       
+            <Route  exact path='/signup' element={
+                <Register
+                    onRegister={handleRegister}
+                    messageErr={messageErr}
+                />
             } />
-        <Route  
-        path='/movies'  
-        element={
-            <ProtectedRoute loggedIn={loggedIn}>
-                <Movies
+            <Route path='*' element={
+                <PageNotFound />
+            }/>
+            <Route exact path='/signin' element={
+                <Login
+                    onLogin={handleAuthorize}
+                    navigate={navigate}
                     loggedIn={loggedIn}
+                    messageErr={messageErr}
                 />
-            </ProtectedRoute>    
+                } />
+            <Route  
+            path='/movies'  
+            element={
+                <ProtectedRoute loggedIn={loggedIn}>
+                    <Movies
+                        loggedIn={loggedIn}
+                    />
+                </ProtectedRoute>    
+                }
+            />
+            <Route 
+            path='/saved-movies'  
+            element={
+                <ProtectedRoute loggedIn={loggedIn}>
+                    <SavedMovies
+                        loggedIn={loggedIn}
+                    />
+                </ProtectedRoute>    
+                }
+            />
+            <Route  
+            path='/profile'  
+            element={
+                <ProtectedRoute loggedIn={loggedIn}>
+                    <Profile
+                        loggedIn={loggedIn}
+                        handleLogout={handleLogout}
+                        chargingDataUser={chargingDataUser} 
+                    />
+                </ProtectedRoute>      
+                }
+            />
+        </Routes>
+        )}   
+        { infoTooltipOpen &&
+            <InfoTooltip
+                closePopup={ closePopup }
+                icon={ messageErr ? unsuccessfully : successfully }
+                notification={ messageErr ? messageErr : 'Запрос выполнен успешно!' }
+            />
             }
-        />
-        <Route 
-        path='/saved-movies'  
-        element={
-            <ProtectedRoute loggedIn={loggedIn}>
-                <SavedMovies
-                    loggedIn={loggedIn}
-                />
-            </ProtectedRoute>    
-            }
-        />
-        <Route  
-        path='/profile'  
-        element={
-            <ProtectedRoute loggedIn={loggedIn}>
-                <Profile
-                    loggedIn={loggedIn}
-                    handleLogout={handleLogout}
-                    chargingDataUser={chargingDataUser} 
-                />
-            </ProtectedRoute>      
-            }
-        />
-    </Routes>
-    { infoTooltipOpen &&
-        <InfoTooltip
-            closePopup={ closePopup }
-            icon={ messageErr ? unsuccessfully : successfully }
-            notification={ messageErr ? messageErr : 'Запрос выполнен успешно!' }
-        />
-        }
-    {isSubmitting && <Preloader />}
+        {isFooter && <Footer />}    
+    </div>
 </CurrentUser.Provider>
 );
 }

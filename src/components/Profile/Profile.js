@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import './Profile.css'
-import Header from '../Header/Header';
 import { CurrentUser } from '../../context/CurrentUserContext';
 
 export default function Profile ({loggedIn, handleLogout, chargingDataUser }) {
@@ -46,9 +45,6 @@ export default function Profile ({loggedIn, handleLogout, chargingDataUser }) {
     
         return(
         <section className='profile'>
-            <Header
-                loggedIn={loggedIn}
-            />
             <div className='profile__container'>
                 <h2 className='profile__title'>Привет, {currentUser && currentUser.name}!</h2>
                 <form className='profile__form' onSubmit={handleSubmit}>
