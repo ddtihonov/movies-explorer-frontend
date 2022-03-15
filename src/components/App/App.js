@@ -56,7 +56,8 @@ export default function App() {
 
 // Эффект проверки авторизации на сайте
 useEffect(() => {
-    if (localStorage.isAuth) {
+    const token = localStorage.getItem('token');
+    if (token) {
         setLoggedIn(true);
         getUserInfo()
             .then((userInfo) => {
@@ -70,7 +71,7 @@ useEffect(() => {
                 })
                 .finally(() => setIsSubmitting(false))
     }              
-}, []);
+}, [localStorage]);
 
  // Эффект запроса карточек
     useEffect(() => {
@@ -119,11 +120,11 @@ useEffect(() => {
         setIsSubmitting(true)
         authorize({ email, password })
             .then((userInfo) => {
-                localStorage.setItem('isAuth', true)
+                localStorage.setItem('token', userInfo.token)
                 setCurrentUser(userInfo)
                 localStorage.setItem('currentUser', JSON.stringify(userInfo))
-                //updateMoviesLists()
                 setLoggedIn(true);
+                setDataUser();
                 navigate('/movies');
             })
             
@@ -131,6 +132,16 @@ useEffect(() => {
                 console.log(`Внимание! ${err}`);
             }) 
             .finally(() => setIsSubmitting(false))
+    }
+
+    function setDataUser () {
+        getUserInfo()
+            .then((userInfo) => {
+                setCurrentUser(userInfo);
+                        })
+                .catch((err) => {
+                    console.log(`Внимание! ${err}`);
+                })
     }
 
     // обновить данные пользователя
