@@ -78,7 +78,7 @@ useEffect(() => {
         setIsSubmitting(true)
         api.getInitialCards()
             .then((cardsInfo) => {
-                sessionStorage.setItem('baseMoviesList', JSON.stringify(cardsInfo))
+                localStorage.setItem('baseMoviesList', JSON.stringify(cardsInfo))
             })
             .catch((err) => setErr(err))
             .finally(() => setIsSubmitting(false))
@@ -86,7 +86,7 @@ useEffect(() => {
         getMyMovies()
             .then((cardsInfo) => {
                 console.log(cardsInfo)
-                sessionStorage.setItem('likeMoviesList', JSON.stringify(cardsInfo))
+                localStorage.setItem('likeMoviesList', JSON.stringify(cardsInfo))
             })
             .catch((err) => {
                 console.log(`Внимание! ${err}`);

@@ -16,20 +16,20 @@ const [message, setMessage] = useState('')
 // Эффект обработки запроса от формы поиска
 useEffect(() => {
     if (queryString) {
-        const newList = JSON.parse(sessionStorage.getItem('likeMoviesList')).filter((movie) =>
+        const newList = JSON.parse(localStorage.getItem('likeMoviesList')).filter((movie) =>
             movie.nameRU.toLowerCase().indexOf(queryString.toLowerCase()) > -1)
             if (newList.length) {
                 setFavoriteListForRender(newList)
-                localStorage.setItem('listLikeFound', JSON.stringify(newList))
+                localStorage.setItem('likeMoviesList', JSON.stringify(newList))
             } else {
                 setMessage('Ничего не найдено')
                 setFavoriteListForRender([])
             } 
         } else {
-            const  newList = JSON.parse(sessionStorage.getItem('likeMoviesList'))
+            const  newList = JSON.parse(localStorage.getItem('likeMoviesList'))
             if (newList.length) {
                 setFavoriteListForRender(newList)
-                localStorage.setItem('listLikeFound', JSON.stringify(newList))
+                localStorage.setItem('likeMoviesList', JSON.stringify(newList))
             } else {
                 setMessage('Ничего не найдено')
                 setFavoriteListForRender([])

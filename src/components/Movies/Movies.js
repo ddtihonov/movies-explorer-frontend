@@ -4,7 +4,7 @@ import SearchForm from '../SearchForm/SearchForm';
 import './Movies.css'
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-export default function Movies({ loggedIn }) {
+export default function Movies() {
 
     const [checkboxActive, setCheckboxActive] = useState(false)
     const [listForRender, setListForRender] = useState([])
@@ -20,7 +20,7 @@ export default function Movies({ loggedIn }) {
     // Эффект обработки запроса от формы поиска
     useEffect(() => {
         if (queryString) {
-            const newList = JSON.parse(sessionStorage.getItem('baseMoviesList')).filter((movie) =>
+            const newList = JSON.parse(localStorage.getItem('baseMoviesList')).filter((movie) =>
                 movie.nameRU.toLowerCase().indexOf(queryString.toLowerCase()) > -1)
                 if (newList.length) {
                     setListForRender(newList)
@@ -30,7 +30,7 @@ export default function Movies({ loggedIn }) {
                     setListForRender([])
                 } 
             } else {
-                const  newList = JSON.parse(sessionStorage.getItem('baseMoviesList'))
+                const  newList = JSON.parse(localStorage.getItem('baseMoviesList'))
                 if (newList.length) {
                     setListForRender(newList)
                     localStorage.setItem('listOfFound', JSON.stringify(newList))
