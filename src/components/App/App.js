@@ -77,22 +77,21 @@ useEffect(() => {
 
  // Эффект запроса карточек
     useEffect(() => {
+        getMyMovies()
+        .then((cardsInfo) => {
+            setFavoriteList(cardsInfo);
+            localStorage.setItem('likeMoviesList', JSON.stringify(cardsInfo))
+        })
+        .catch((err) => {
+            console.log(`Внимание! ${err}`);
+        })
+        .finally(() => setIsSubmitting(false))
         setIsSubmitting(true)
         api.getInitialCards()
             .then((cardsInfo) => {
                 sessionStorage.setItem('baseMoviesList', JSON.stringify(cardsInfo))
             })
             .catch((err) => setErr(err))
-            .finally(() => setIsSubmitting(false))
-
-        getMyMovies()
-            .then((cardsInfo) => {
-                setFavoriteList(cardsInfo);
-                localStorage.setItem('likeMoviesList', JSON.stringify(cardsInfo))
-            })
-            .catch((err) => {
-                console.log(`Внимание! ${err}`);
-            })
             .finally(() => setIsSubmitting(false))
     }, []);
 

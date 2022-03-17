@@ -1,43 +1,31 @@
-import React, {useState,  useContext} from 'react'
+import React, {useState } from 'react'
 import { useLocation } from 'react-router';
 import {saveFilm, deleteFilm} from '../../utils/MainApi';
-import { CurrentUser } from '../../context/CurrentUserContext';
 import './MoviesCard.css';
 
 export default function MoviesCard ({ movieData, favoriteList}) {
 
-    console.log(favoriteList)
+    console.log(movieData)
 
     const  routes  = useLocation()
-    const currentUser = useContext(CurrentUser)
 
     const [movieCard, setMovieCard] = useState(movieData);
     
-    const [saved, setSaved] = useState(movieData.owner === currentUser._id)
+    const [saved, setSaved] = useState(favoriteList.some((item) => item.movieId === movieData.id))
 
     const updateLocalLists = (movieInfo) => {
-        // /movies
-        const baseMoviesList = JSON.parse(sessionStorage.getItem('baseMoviesList'))
-        const movieIndex = baseMoviesList.findIndex(existedMovie => existedMovie.id === movieInfo.id)
-
-        baseMoviesList.splice(movieIndex, 1, movieInfo)
-        sessionStorage.setItem('baseMoviesList', JSON.stringify(baseMoviesList))
-    
-        let listOfFound = JSON.parse(localStorage.getItem('listOfFound'))
-        const movIndex = listOfFound.findIndex(existedMovie => existedMovie.id === movieInfo.id)
-        listOfFound.splice(movIndex, 1, movieInfo)
-        localStorage.setItem('listOfFound', JSON.stringify(listOfFound))
-    
         // /saved-movies 
-        let myFavoriteMoviesList = JSON.parse(localStorage.getItem('listLikeFound'))
+        let myFavoriteMoviesList = JSON.parse(localStorage.getItem('likeMoviesList'))
         
-        if (movieInfo.owner === currentUser._id) {
+        console.log()
+        
+        if (favoriteList.some((item) => item.movieId === movieInfo.id)) {
             myFavoriteMoviesList = myFavoriteMoviesList.concat(movieInfo)
-            localStorage.setItem('listLikeFound', JSON.stringify(myFavoriteMoviesList))
+            localStorage.setItem('likeMoviesList', JSON.stringify(myFavoriteMoviesList))
         } else {
             const index = myFavoriteMoviesList.findIndex(existedMovie => existedMovie.id === movieInfo.id)
             myFavoriteMoviesList.splice(index, 1) 
-            localStorage.setItem('listLikeFound', JSON.stringify(myFavoriteMoviesList))
+            localStorage.setItem('likeMoviesList', JSON.stringify(myFavoriteMoviesList))
         }
     }
 
@@ -59,12 +47,10 @@ function handleSaveFilm() {
 function handleDeleteFilm () {
     deleteFilm (movieCard)
     .then((deleteMovieInfo) => {
+        setSaved(false)
         updateLocalLists(deleteMovieInfo)
-
         routes.pathname === '/saved-movies' ?
         setMovieCard('') : setMovieCard(deleteMovieInfo)
-
-        setSaved(false)
         })
 
         .catch((err) => {
@@ -90,31 +76,28 @@ function handleDeleteFilm () {
     return (
         <li className='movie'>
             <div className='movie__container'>
-                { 
-                    routes.pathname === '/saved-movies' ? (
-                        <button type='submit' 
-                        className='movie__button movie__button-save' 
-                        onClick={handleDeleteFilm}
-                        aria-label='удаление фильма'
-                        ></button>
-                    ) :
-                    saved ?
-                    (<button type='submit' 
-                        onClick={handleDeleteFilm} 
-                        className='movie__button movie__button-like'
-                        aria-label='удаление фильма'
-                        ></button>
-                    ) : 
-                    (
-                        <button type='submit' 
-                        onClick={handleSaveFilm} 
-                        className='movie__button movie__button-norm'
-                        aria-label='добавление фильма'
-                        >Сохранить</button> 
-                    )
-                
-                
-                }
+            { 
+                routes.pathname === '/saved-movies' ? (
+                    <button 
+                    className='movie__button movie__button-save' 
+                    onClick={handleDeleteFilm}
+                    aria-label='удаление фильма'
+                    ></button>
+                ) :
+                saved ?
+                (<button 
+                    className='movie__button movie__button-like'
+                    aria-label='удаление фильма'
+                    ></button>
+                ) : 
+                (
+                    <button
+                    onClick={handleSaveFilm} 
+                    className='movie__button movie__button-norm'
+                    aria-label='добавление фильма'
+                    >Сохранить</button> 
+                )
+            }
                 <a className='movie__link' href={trailer} target="_blank" rel="noreferrer">
                 <img
                     src={url}
