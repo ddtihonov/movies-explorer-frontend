@@ -1,42 +1,22 @@
-import React, {useState, useContext, } from 'react'
+import React, {useState} from 'react'
 import { useLocation } from 'react-router';
 import {saveFilm, deleteFilm} from '../../utils/MainApi';
 import './MoviesCard.css';
-import { CurrentUser } from '../../context/CurrentUserContext';
 
 export default function MoviesCard ({ movieData, favoriteList}) {
 
     const  routes  = useLocation()
-
-    const currentUser = useContext(CurrentUser)
-
-    const [movieCard, setMovieCard] = useState(movieData);
     
     const [saved, setSaved] = useState(favoriteList.some((item) => item.movieId === movieData.id))
 
-    function updateLocalLists (saveMovieInfo, deleteMovieInfo) {
-        // добавить в избранное
-        let favoriteMoviesList = JSON.parse(localStorage.getItem('likeMoviesList'))
-        console.log(currentUser._id)
-        console.log(saveMovieInfo.owner)
-        if (saveMovieInfo.owner === currentUser._id) { 
-        favoriteMoviesList = favoriteMoviesList.concat(saveMovieInfo) 
-        localStorage.setItem('likeMoviesList', JSON.stringify(favoriteMoviesList)) 
-        } else  {
-                // удаляем из избраноого
-                const index = favoriteMoviesList.findIndex(existedMovie => existedMovie.id === deleteMovieInfo.id) 
-                favoriteMoviesList.splice(index, 1) 
-                localStorage.setItem('likeMoviesList', JSON.stringify(favoriteMoviesList)) 
-                }
-    }
-
 // Функция добавления фильма в избранные
 function handleSaveFilm() {
-    saveFilm(movieCard)
+    saveFilm(movieData)
         .then((saveMovieInfo) => {
             setSaved(true)
-            setMovieCard(saveMovieInfo)
-            updateLocalLists(saveMovieInfo)
+            let favoriteMoviesList = JSON.parse(localStorage.getItem('likeMoviesList'))
+            favoriteMoviesList = favoriteMoviesList.concat(saveMovieInfo) 
+            localStorage.setItem('likeMoviesList', JSON.stringify(favoriteMoviesList))
         })
         .catch((err) => {
             console.log(`Внимание! ${err}`);
@@ -46,12 +26,13 @@ function handleSaveFilm() {
 
 // Функция удаления из избранного
 function handleDeleteFilm () {
-    deleteFilm (movieCard)
+    deleteFilm (movieData)
     .then((deleteMovieInfo) => {
         setSaved(false)
-        updateLocalLists(deleteMovieInfo)
-        routes.pathname === '/saved-movies' ?
-        setMovieCard('') : setMovieCard(deleteMovieInfo)
+        let favoriteMoviesList = JSON.parse(localStorage.getItem('likeMoviesList'))
+        const index = favoriteMoviesList.findIndex(item => item.movieId === deleteMovieInfo.movieId)
+        favoriteMoviesList.splice(index, 1) 
+        localStorage.setItem('likeMoviesList', JSON.stringify(favoriteMoviesList))
         })
 
         .catch((err) => {
