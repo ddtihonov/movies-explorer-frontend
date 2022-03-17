@@ -4,7 +4,7 @@ import SearchForm from '../SearchForm/SearchForm';
 import './Movies.css'
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-export default function Movies() {
+export default function Movies({favoriteList}) {
 
     const [checkboxActive, setCheckboxActive] = useState(false)
     const [listForRender, setListForRender] = useState([])
@@ -20,7 +20,7 @@ export default function Movies() {
     // Эффект обработки запроса от формы поиска
     useEffect(() => {
         if (queryString) {
-            const newList = JSON.parse(localStorage.getItem('baseMoviesList')).filter((movie) =>
+            const newList = JSON.parse(sessionStorage.getItem('baseMoviesList')).filter((movie) =>
                 movie.nameRU.toLowerCase().indexOf(queryString.toLowerCase()) > -1)
                 if (newList.length) {
                     setListForRender(newList)
@@ -30,7 +30,7 @@ export default function Movies() {
                     setListForRender([])
                 } 
             } else {
-                const  newList = JSON.parse(localStorage.getItem('baseMoviesList'))
+                const  newList = JSON.parse(sessionStorage.getItem('baseMoviesList'))
                 if (newList.length) {
                     setListForRender(newList)
                     localStorage.setItem('listOfFound', JSON.stringify(newList))
@@ -78,6 +78,7 @@ export default function Movies() {
                         listForRender
                 }
                 message={message}
+                favoriteList={favoriteList}
             />
         </section>
     );

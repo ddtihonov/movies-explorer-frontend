@@ -48,7 +48,9 @@ export default function App() {
     const [loggedIn, setLoggedIn] = useState(false);
 
     // Стейт  Preloader
-    const [isSubmitting, setIsSubmitting] = useState(false); 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    
+    const [favoriteList, setFavoriteList] = useState([]);
 
     const [infoTooltipOpen, setInfoTooltipOpen] = useState(false)
     const [messageErr, setMessageErr] = useState('')
@@ -71,21 +73,21 @@ useEffect(() => {
                 })
                 .finally(() => setIsSubmitting(false))
     }              
-}, [localStorage]);
+}, []);
 
  // Эффект запроса карточек
     useEffect(() => {
         setIsSubmitting(true)
         api.getInitialCards()
             .then((cardsInfo) => {
-                localStorage.setItem('baseMoviesList', JSON.stringify(cardsInfo))
+                sessionStorage.setItem('baseMoviesList', JSON.stringify(cardsInfo))
             })
             .catch((err) => setErr(err))
             .finally(() => setIsSubmitting(false))
 
         getMyMovies()
             .then((cardsInfo) => {
-                console.log(cardsInfo)
+                setFavoriteList(cardsInfo);
                 localStorage.setItem('likeMoviesList', JSON.stringify(cardsInfo))
             })
             .catch((err) => {
@@ -102,13 +104,11 @@ useEffect(() => {
             .then((userData) => {
                 if (userData) {
                     setInfoTooltipOpen(true)
-
                     setTimeout(() => {
                         navigate('/signin');
                         setInfoTooltipOpen(false)
                 },
                     1000)
-
                 }
     })
             .catch((err) => setErr(err))
@@ -125,6 +125,7 @@ useEffect(() => {
                 localStorage.setItem('currentUser', JSON.stringify(userInfo))
                 setLoggedIn(true);
                 setDataUser();
+                setDataMovies ()
                 navigate('/movies');
             })
             
@@ -142,6 +143,26 @@ useEffect(() => {
                 .catch((err) => {
                     console.log(`Внимание! ${err}`);
                 })
+    }
+
+    function setDataMovies () {
+        setIsSubmitting(true)
+        getMyMovies()
+            .then((cardsInfo) => {
+                setFavoriteList(cardsInfo);
+                localStorage.setItem('likeMoviesList', JSON.stringify(cardsInfo))
+                if (!sessionStorage.baseMoviesList) { 
+                    api.getInitialCards()
+                        .then((cardsInfo) => {
+                            sessionStorage.setItem('baseMoviesList', JSON.stringify(cardsInfo))
+                        })
+                        .catch((err) => setErr(err))
+                }
+            })
+            .catch((err) => {
+                console.log(`Внимание! ${err}`);
+            })
+            .finally(() => setIsSubmitting(false))
     }
 
     // обновить данные пользователя
@@ -171,6 +192,7 @@ function handleLogout () {
             setLoggedIn(false);
             navigate('/')
             localStorage.clear()
+            //sessionStorage.clear()
             })
             .catch((err) => {
                 console.log(`Внимание! ${err}`);
@@ -225,6 +247,7 @@ return (
                 <ProtectedRoute loggedIn={loggedIn}>
                     <Movies
                         loggedIn={loggedIn}
+                        favoriteList={favoriteList}
                     />
                 </ProtectedRoute>    
                 }
@@ -235,6 +258,7 @@ return (
                 <ProtectedRoute loggedIn={loggedIn}>
                     <SavedMovies
                         loggedIn={loggedIn}
+                        favoriteList={favoriteList}
                     />
                 </ProtectedRoute>    
                 }

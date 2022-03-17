@@ -4,7 +4,7 @@ import './MoviesCardList.css'
 import MoviesCard from '../MoviesCard/MoviesCard'
 import ScreenSize from '../../hooks/ScreenSize';
 
-export default function MoviesCardList ({moviesList, onCardLike, onCardDelete, message, favoriteMoviesList}) {
+export default function MoviesCardList ({moviesList, onCardLike, onCardDelete, message, favoriteMoviesList, favoriteList}) {
 
     const routes  = useLocation()
     const [moviesTotal, setMoviesTotal] = useState(0);
@@ -47,6 +47,7 @@ export default function MoviesCardList ({moviesList, onCardLike, onCardDelete, m
                     key={index}
                     onCardLike={onCardLike}
                     favoriteMoviesList ={favoriteMoviesList}
+                    favoriteList={favoriteList}
                     />;
                 } else {
                     return '';
@@ -61,6 +62,7 @@ export default function MoviesCardList ({moviesList, onCardLike, onCardDelete, m
                     key={index}
                     onCardDelete={onCardDelete}
                     favoriteMoviesList={favoriteMoviesList}
+                    favoriteList={favoriteList}
                     />;
                 } else {
                     return '';

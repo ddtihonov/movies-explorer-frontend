@@ -4,7 +4,7 @@ import SearchForm from '../SearchForm/SearchForm';
 import './SavedMovies.css'
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-export default function SavedMovies({loggedIn}) {
+export default function SavedMovies({favoriteList}) {
 
 const [checkboxActive, setCheckboxActive] = useState(false)
 const [favoriteListForRender, setFavoriteListForRender] = useState([])
@@ -72,6 +72,7 @@ const handleSubmitSearchForm = (query) => {
                         favoriteListForRender
                 }
                 message={message}
+                favoriteList={favoriteList}
             />
         </section>
     );

@@ -4,7 +4,9 @@ import {saveFilm, deleteFilm} from '../../utils/MainApi';
 import { CurrentUser } from '../../context/CurrentUserContext';
 import './MoviesCard.css';
 
-export default function MoviesCard ({ movieData }) {
+export default function MoviesCard ({ movieData, favoriteList}) {
+
+    console.log(favoriteList)
 
     const  routes  = useLocation()
     const currentUser = useContext(CurrentUser)
@@ -15,11 +17,11 @@ export default function MoviesCard ({ movieData }) {
 
     const updateLocalLists = (movieInfo) => {
         // /movies
-        const baseMoviesList = JSON.parse(localStorage.getItem('baseMoviesList'))
+        const baseMoviesList = JSON.parse(sessionStorage.getItem('baseMoviesList'))
         const movieIndex = baseMoviesList.findIndex(existedMovie => existedMovie.id === movieInfo.id)
 
         baseMoviesList.splice(movieIndex, 1, movieInfo)
-        localStorage.setItem('baseMoviesList', JSON.stringify(baseMoviesList))
+        sessionStorage.setItem('baseMoviesList', JSON.stringify(baseMoviesList))
     
         let listOfFound = JSON.parse(localStorage.getItem('listOfFound'))
         const movIndex = listOfFound.findIndex(existedMovie => existedMovie.id === movieInfo.id)
