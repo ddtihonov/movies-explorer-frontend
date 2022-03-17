@@ -6,11 +6,17 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
 export default function SavedMovies({favoriteList}) {
 
+const [favoriteMoviesList, setFavoriteMoviesList] = useState([])
 const [checkboxActive, setCheckboxActive] = useState(false)
 const [favoriteListForRender, setFavoriteListForRender] = useState([])
 const [shortFavoriteListForRender, setShortFavoriteListForRender] = useState([])
 const [queryString, setQueryString] = useState('')
 const [message, setMessage] = useState('')
+
+
+useEffect(() => {
+    localStorage.favoriteMoviesList && setFavoriteMoviesList(JSON.parse(localStorage.getItem('likeMoviesList')))
+}, [checkboxActive])
 
 
 // Эффект обработки запроса от формы поиска

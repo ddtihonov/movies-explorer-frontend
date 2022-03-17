@@ -1,32 +1,32 @@
-import React, {useState } from 'react'
+import React, {useState, useContext, } from 'react'
 import { useLocation } from 'react-router';
 import {saveFilm, deleteFilm} from '../../utils/MainApi';
 import './MoviesCard.css';
+import { CurrentUser } from '../../context/CurrentUserContext';
 
 export default function MoviesCard ({ movieData, favoriteList}) {
 
-    console.log(movieData)
-
     const  routes  = useLocation()
+
+    const currentUser = useContext(CurrentUser)
+
+    console.log(currentUser._id)
 
     const [movieCard, setMovieCard] = useState(movieData);
     
     const [saved, setSaved] = useState(favoriteList.some((item) => item.movieId === movieData.id))
 
-    const updateLocalLists = (movieInfo) => {
-        // /saved-movies 
-        let myFavoriteMoviesList = JSON.parse(localStorage.getItem('likeMoviesList'))
+    const updateLocalLists = (saveMovieInfo, deleteMovieInfo) => {
+        // добавить в избранное
+        let favoriteMoviesList = JSON.parse(localStorage.getItem('likeMoviesList'))
         
-        console.log()
-        
-        if (favoriteList.some((item) => item.movieId === movieInfo.id)) {
-            myFavoriteMoviesList = myFavoriteMoviesList.concat(movieInfo)
-            localStorage.setItem('likeMoviesList', JSON.stringify(myFavoriteMoviesList))
-        } else {
-            const index = myFavoriteMoviesList.findIndex(existedMovie => existedMovie.id === movieInfo.id)
-            myFavoriteMoviesList.splice(index, 1) 
-            localStorage.setItem('likeMoviesList', JSON.stringify(myFavoriteMoviesList))
-        }
+        favoriteMoviesList = favoriteMoviesList.concat(saveMovieInfo) 
+        localStorage.setItem('likeMoviesList', JSON.stringify(favoriteMoviesList)) 
+
+       // удаляем из избраноого
+        const index = favoriteMoviesList.findIndex(existedMovie => existedMovie.id === deleteMovieInfo.id) 
+        favoriteMoviesList.splice(index, 1) 
+        localStorage.setItem('likeMoviesList', JSON.stringify(favoriteMoviesList)) 
     }
 
 // Функция добавления фильма в избранные
