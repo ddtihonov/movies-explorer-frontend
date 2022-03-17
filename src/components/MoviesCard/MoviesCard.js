@@ -10,23 +10,24 @@ export default function MoviesCard ({ movieData, favoriteList}) {
 
     const currentUser = useContext(CurrentUser)
 
-    console.log(currentUser._id)
-
     const [movieCard, setMovieCard] = useState(movieData);
     
     const [saved, setSaved] = useState(favoriteList.some((item) => item.movieId === movieData.id))
 
-    const updateLocalLists = (saveMovieInfo, deleteMovieInfo) => {
+    function updateLocalLists (saveMovieInfo, deleteMovieInfo) {
         // добавить в избранное
         let favoriteMoviesList = JSON.parse(localStorage.getItem('likeMoviesList'))
-        
+        console.log(currentUser._id)
+        console.log(saveMovieInfo.owner)
+        if (saveMovieInfo.owner === currentUser._id) { 
         favoriteMoviesList = favoriteMoviesList.concat(saveMovieInfo) 
         localStorage.setItem('likeMoviesList', JSON.stringify(favoriteMoviesList)) 
-
-       // удаляем из избраноого
-        const index = favoriteMoviesList.findIndex(existedMovie => existedMovie.id === deleteMovieInfo.id) 
-        favoriteMoviesList.splice(index, 1) 
-        localStorage.setItem('likeMoviesList', JSON.stringify(favoriteMoviesList)) 
+        } else  {
+                // удаляем из избраноого
+                const index = favoriteMoviesList.findIndex(existedMovie => existedMovie.id === deleteMovieInfo.id) 
+                favoriteMoviesList.splice(index, 1) 
+                localStorage.setItem('likeMoviesList', JSON.stringify(favoriteMoviesList)) 
+                }
     }
 
 // Функция добавления фильма в избранные
