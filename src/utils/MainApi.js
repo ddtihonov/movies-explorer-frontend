@@ -1,6 +1,6 @@
 
     
-    export const register = (password, email, name) => {
+    export const register = ({name, email, password}) => {
         return fetch('https://api.ddtihonov.students.nomoredomains.work/signup', {
             credentials: 'include',
             method: 'POST',
@@ -8,9 +8,10 @@
             'Content-Type': 'application/json',
         },
             body: JSON.stringify({ 
-                password, 
-                email, 
-                name }),
+                name: name,
+                email: email,
+                password: password
+            }),
         })
         .then((res) => checkError(res));
     };
