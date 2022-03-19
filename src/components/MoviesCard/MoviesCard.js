@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useLocation } from 'react-router';
 import {saveFilm, deleteFilm} from '../../utils/MainApi';
 import './MoviesCard.css';
@@ -8,6 +8,9 @@ export default function MoviesCard ({ movieData, favoriteList}) {
     const  routes  = useLocation()
     
     const [saved, setSaved] = useState(favoriteList.some((item) => item.movieId === movieData.id))
+    
+    
+    
 
 // Функция добавления фильма в избранные
 function handleSaveFilm() {
@@ -22,7 +25,6 @@ function handleSaveFilm() {
             console.log(`Внимание! ${err}`);
         })
 }
-
 
 // Функция удаления из избранного
 function handleDeleteFilm () {
@@ -54,6 +56,8 @@ function handleDeleteFilm () {
     function calculateTime () {
         return `${Math.floor(movieData.duration / 60)}ч ${movieData.duration % 60}м`;
     };
+
+    //console.log(JSON.parse(localStorage.getItem('likeMoviesList')))
 
     return (
         <li className='movie'>

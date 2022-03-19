@@ -4,7 +4,7 @@ import './MoviesCardList.css'
 import MoviesCard from '../MoviesCard/MoviesCard'
 import ScreenSize from '../../hooks/ScreenSize';
 
-export default function MoviesCardList ({moviesList, message, favoriteMoviesList, favoriteList}) {
+export default function MoviesCardList ({moviesList, message, favoriteMoviesData, favoriteList}) {
 
     const routes  = useLocation()
     const [moviesTotal, setMoviesTotal] = useState(0);
@@ -52,8 +52,8 @@ export default function MoviesCardList ({moviesList, message, favoriteMoviesList
                 }
                 })}
                 {routes.pathname === '/saved-movies' &&
-                    favoriteMoviesList 
-                    && favoriteMoviesList.map((item, index) => {
+                    favoriteMoviesData 
+                    && favoriteMoviesData.map((item, index) => {
                 if (index + 1 <= moviesTotal) {
                     return <MoviesCard 
                     movieData={item} 

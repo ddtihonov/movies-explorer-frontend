@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect} from 'react'
 import SearchForm from '../SearchForm/SearchForm';
 
 import './SavedMovies.css'
@@ -14,34 +14,25 @@ const [queryString, setQueryString] = useState('')
 const [message, setMessage] = useState('')
 
 
+
 useEffect(() => {
-    localStorage.favoriteMoviesList && setFavoriteMoviesList(JSON.parse(localStorage.getItem('likeMoviesList')))
+    localStorage.likeMoviesList && setFavoriteMoviesList(JSON.parse(localStorage.getItem('likeMoviesList')))
 }, [checkboxActive])
 
 
 // Эффект обработки запроса от формы поиска
 useEffect(() => {
     if (queryString) {
-        const newList = JSON.parse(localStorage.getItem('likeMoviesList')).filter((movie) =>
+        const newList = favoriteMoviesList.filter((movie) =>
             movie.nameRU.toLowerCase().indexOf(queryString.toLowerCase()) > -1)
-            if (newList.length) {
+            newList.length ?
                 setFavoriteListForRender(newList)
-                localStorage.setItem('likeMoviesList', JSON.stringify(newList))
-            } else {
+                :
                 setMessage('Ничего не найдено')
-                setFavoriteListForRender([])
-            } 
-        } else {
-            const  newList = JSON.parse(localStorage.getItem('likeMoviesList'))
-            if (newList.length) {
-                setFavoriteListForRender(newList)
-                localStorage.setItem('likeMoviesList', JSON.stringify(newList))
             } else {
-                setMessage('Ничего не найдено')
-                setFavoriteListForRender([])
+                setFavoriteListForRender(favoriteMoviesList)
             } 
-        }
-    }, [queryString, checkboxActive])
+    }, [queryString, favoriteMoviesList])
 
 // Эффект обработки чекбокса
 useEffect(() => {
@@ -64,6 +55,10 @@ const handleSubmitSearchForm = (query) => {
     setQueryString(query)
 }
 
+//console.log(favoriteMoviesList)//////////////////////
+//console.log(favoriteListForRender)
+//console.log(shortFavoriteListForRender)
+
     return (
         <section className='saved-movies'>
             <SearchForm
@@ -71,11 +66,14 @@ const handleSubmitSearchForm = (query) => {
                 handleCheckboxChange={handleCheckboxChange}
             />
             <MoviesCardList
-                favoriteMoviesList={
-                    checkboxActive ?
+                favoriteMoviesData={
+                    shortFavoriteListForRender.length ?
                         shortFavoriteListForRender
                         :
+                    favoriteListForRender.length ?    
                         favoriteListForRender
+                        :
+                        favoriteMoviesList
                 }
                 message={message}
                 favoriteList={favoriteList}

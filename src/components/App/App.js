@@ -27,6 +27,9 @@ import Preloader from '../Preloader/Preolader';
 
 export default function App() {
 
+
+    //console.log(JSON.parse(localStorage.getItem('likeMoviesList')))
+
     const navigate = useNavigate();
     const routes  = useLocation();
 
