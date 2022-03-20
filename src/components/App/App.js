@@ -61,8 +61,7 @@ export default function App() {
 
 // Эффект проверки авторизации на сайте
 useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
+    if (localStorage.isAuth) {
         setLoggedIn(true);
         getUserInfo()
             .then((userInfo) => {
@@ -109,6 +108,7 @@ useEffect(() => {
                     setTimeout(() => {
                         navigate('/signin');
                         setInfoTooltipOpen(false)
+                        handleAuthorize({ email, password })
                 },
                     1000)
                 }
@@ -122,7 +122,7 @@ useEffect(() => {
         setIsSubmitting(true)
         authorize({ email, password })
             .then((userInfo) => {
-                localStorage.setItem('token', userInfo.token)
+                localStorage.setItem('isAuth', true)
                 setCurrentUser(userInfo)
                 localStorage.setItem('currentUser', JSON.stringify(userInfo))
                 setLoggedIn(true);
@@ -227,21 +227,25 @@ return (
                 <Main/>
             } />       
             <Route  exact path='/signup' element={
+                <ProtectedRoute loggedIn={!loggedIn}>
                 <Register
                     onRegister={handleRegister}
                     messageErr={messageErr}
                 />
+                </ProtectedRoute>
             } />
             <Route path='*' element={
                 <PageNotFound />
             }/>
             <Route exact path='/signin' element={
+                <ProtectedRoute loggedIn={!loggedIn}>
                 <Login
                     onLogin={handleAuthorize}
                     navigate={navigate}
                     loggedIn={loggedIn}
                     messageErr={messageErr}
                 />
+                </ProtectedRoute>
                 } />
             <Route  
             path='/movies'  

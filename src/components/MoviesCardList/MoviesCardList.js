@@ -28,9 +28,11 @@ export default function MoviesCardList ({moviesList, message, favoriteMoviesData
     }, [width]);
 
 
+
     function addCards() {
         setMoviesTotal(moviesTotal + addMovies);
     }
+
 
     return (
         <section className='movie-list'>
@@ -65,7 +67,7 @@ export default function MoviesCardList ({moviesList, message, favoriteMoviesData
                 }
                 })}
             </ul>
-        { moviesTotal < 100 && routes.pathname === '/movies' && !message && (
+        {routes.pathname === '/movies' && moviesTotal < moviesList.length &&  !message && (
             <button  className='movie-list__button movie-list__hover' onClick={addCards}>Ещё
             </button>
         )}
