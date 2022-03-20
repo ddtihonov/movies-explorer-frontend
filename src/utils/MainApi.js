@@ -94,8 +94,8 @@
             .then((res) => checkError(res));
     }
     
-    export const deleteFilm = (movie) => {
-        return fetch(`https://api.ddtihonov.students.nomoredomains.work/movies/${movie._id}`, {
+    export const deleteFilm = (movieId) => {
+        return fetch(`https://api.ddtihonov.students.nomoredomains.work/movies/${movieId}`, {
             method: "DELETE",
             credentials: "include",
             headers: {'Content-Type': 'application/json'},
