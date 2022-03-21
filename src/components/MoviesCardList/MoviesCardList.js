@@ -41,7 +41,7 @@ export default function MoviesCardList ({moviesList, message, favoriteMoviesData
             }
             <ul className="movie-list__roster">
                 {routes.pathname === '/movies' &&
-                    moviesList 
+                    moviesList && !message
                     && moviesList.map((item, index) => {
                 if (index + 1 <= moviesTotal) {
                     return <MoviesCard 
@@ -56,7 +56,7 @@ export default function MoviesCardList ({moviesList, message, favoriteMoviesData
                 }
                 })}
                 {routes.pathname === '/saved-movies' &&
-                    favoriteMoviesData 
+                    favoriteMoviesData && !message
                     && favoriteMoviesData.map((item, index) => {
                 if (index + 1 <= moviesTotal) {
                     return <MoviesCard 

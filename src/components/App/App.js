@@ -304,6 +304,7 @@ return (
                     <SavedMovies
                         loggedIn={loggedIn}
                         favoriteList={favoriteList}
+                        handleSaveFilm={ handleSaveFilm}
                         handleDeleteFilm={handleDeleteFilm}
                     />
                 </ProtectedRoute>    

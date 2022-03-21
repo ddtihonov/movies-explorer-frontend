@@ -15,7 +15,7 @@ export default function Movies({favoriteList, handleSaveFilm, handleDeleteFilm})
     // при возврате - для отрисовки прошлого поиска
     useEffect(() => {
         localStorage.listOfFound && setListForRender(JSON.parse(localStorage.getItem('listOfFound')))
-    }, [checkboxActive])
+    }, [handleDeleteFilm, handleSaveFilm])
     
     // Эффект обработки запроса от формы поиска
     useEffect(() => {

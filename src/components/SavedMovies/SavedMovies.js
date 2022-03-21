@@ -4,7 +4,7 @@ import SearchForm from '../SearchForm/SearchForm';
 import './SavedMovies.css'
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-export default function SavedMovies({favoriteList, handleDeleteFilm}) {
+export default function SavedMovies({favoriteList, handleDeleteFilm, handleSaveFilm}) {
 
 const [favoriteMoviesList, setFavoriteMoviesList] = useState([])
 const [checkboxActive, setCheckboxActive] = useState(false)
@@ -16,9 +16,8 @@ const [message, setMessage] = useState('')
 
 
 useEffect(() => {
-    localStorage.likeMoviesList && setFavoriteMoviesList(JSON.parse(localStorage.getItem('likeMoviesList')))
-}, [checkboxActive])
-
+    localStorage.likeMoviesList &&  setFavoriteMoviesList(JSON.parse(localStorage.getItem('likeMoviesList')))
+}, [handleDeleteFilm, handleSaveFilm, checkboxActive])
 
 // Эффект обработки запроса от формы поиска
 useEffect(() => {
@@ -32,7 +31,9 @@ useEffect(() => {
             } else {
                 setFavoriteListForRender(favoriteMoviesList)
             } 
-    }, [queryString, favoriteMoviesList])
+            
+    favoriteMoviesList.length ? setMessage('') : setMessage('Ничего не найдено')        
+    }, [queryString, favoriteMoviesList, checkboxActive])
 
 // Эффект обработки чекбокса
 useEffect(() => {
@@ -55,7 +56,7 @@ const handleSubmitSearchForm = (query) => {
     setQueryString(query)
 }
 
-console.log(favoriteMoviesList)//////////////////////
+//console.log(favoriteMoviesList)
 //console.log(favoriteListForRender)
 //console.log(shortFavoriteListForRender)
 
@@ -70,10 +71,7 @@ console.log(favoriteMoviesList)//////////////////////
                     shortFavoriteListForRender.length ?
                         shortFavoriteListForRender
                         :
-                    favoriteListForRender.length ?    
-                        favoriteListForRender
-                        :
-                        favoriteMoviesList
+                        favoriteListForRender   
                 }
                 message={message}
                 favoriteList={favoriteList}
