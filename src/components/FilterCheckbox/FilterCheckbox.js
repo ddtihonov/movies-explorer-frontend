@@ -1,7 +1,8 @@
 import React from 'react';
 import './FilterCheckbox.css';
 
-export default function FilterCheckbox ({listenCheckbox}) {
+export default function FilterCheckbox ({listenCheckbox, checkBoxPosition}) {
+
 
     function handleFilterShortMovies() {
         const element = document.querySelector('input[type=checkbox]');
@@ -16,6 +17,7 @@ export default function FilterCheckbox ({listenCheckbox}) {
                 id='filter-checkbox'
                 type='checkbox'
                 onChange={handleFilterShortMovies}
+                checked={checkBoxPosition === true ? true : false}
             />
             <label className='checkbox__label' htmlFor='filter-checkbox'>
             Короткометражки

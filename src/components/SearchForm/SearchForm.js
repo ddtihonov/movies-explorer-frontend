@@ -3,7 +3,7 @@ import { useLocation } from 'react-router';
 import './SearchForm.css'
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox'
 
-export default function SearchForm ({ handleSubmitSearchForm, handleCheckboxChange }) {
+export default function SearchForm ({ handleSubmitSearchForm, handleCheckboxChange}) {
 
     const queryData = localStorage.getItem('query')
     const routes  = useLocation()
@@ -14,10 +14,34 @@ export default function SearchForm ({ handleSubmitSearchForm, handleCheckboxChan
     //Стейт запроса
     const [query, setQuery] = useState(queryData && routes.pathname === '/movies' ? queryData : '')
 
+    const checkBoxPosition = JSON.parse(localStorage.getItem('checkBoxStatus'));
+
+    console.log(checkBoxPosition)
+
     function listenCheckbox() {
-        handleCheckboxChange(!isCheckboxOn)
-        setIsCheckboxOn(!isCheckboxOn)
-    }
+        if (routes.pathname === '/movies' && isCheckboxOn === false) {
+            localStorage.setItem('checkBoxStatus', true);
+            setIsCheckboxOn(true);
+            handleCheckboxChange(true)
+        } else if (routes.pathname === '/movies' && isCheckboxOn === true) {
+            localStorage.setItem('checkBoxStatus', false);
+            setIsCheckboxOn(false);
+            handleCheckboxChange(false)
+        } else if (routes.pathname === '/saved-movies' && isCheckboxOn === false) {
+            setIsCheckboxOn(true);
+            handleCheckboxChange(true)
+        } else if (routes.pathname === '/saved-movies' && isCheckboxOn === true ) {
+            setIsCheckboxOn(false);
+            handleCheckboxChange(false)
+        }
+}
+
+useEffect(() => {
+    routes.pathname === '/movies' &&
+        handleCheckboxChange(checkBoxPosition);
+         // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
+
 
     function handleInput(evt) {
         setQuery(evt.target.value)
@@ -51,6 +75,10 @@ export default function SearchForm ({ handleSubmitSearchForm, handleCheckboxChan
                     </form>  
                 <FilterCheckbox
                     listenCheckbox={listenCheckbox}
+                    checkBoxPosition={
+                        routes.pathname === '/movies' ?
+                        checkBoxPosition :
+                        isCheckboxOn }
                 />
                 
             </div>
