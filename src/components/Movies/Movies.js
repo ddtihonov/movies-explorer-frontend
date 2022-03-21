@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import SearchForm from '../SearchForm/SearchForm';
+import { useLocation } from 'react-router';
 
 import './Movies.css'
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
 export default function Movies({favoriteList, handleSaveFilm, handleDeleteFilm}) {
 
+    const queryData = localStorage.getItem('query')
+    const routes  = useLocation()
     const [checkboxActive, setCheckboxActive] = useState(false)
     const [listForRender, setListForRender] = useState([])
     const [shortListForRender, setShortListForRender] = useState([])
-    const [queryString, setQueryString] = useState('')
+    const [queryString, setQueryString] = useState(queryData && routes.pathname === '/movies' ? queryData : '')
     const [message, setMessage] = useState('')
     
     // при возврате - для отрисовки прошлого поиска
@@ -58,10 +61,12 @@ export default function Movies({favoriteList, handleSaveFilm, handleDeleteFilm})
         setCheckboxActive(isCheckboxOn)
     }
 
-    const handleSubmitSearchForm = (query) => {
+    function handleSubmitSearchForm (query) {
         setMessage('')
         setQueryString(query)
     }
+
+    console.log(queryString)
 
 
     

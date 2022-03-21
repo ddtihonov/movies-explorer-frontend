@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useLocation } from 'react-router';
 import './SearchForm.css'
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox'
 
 export default function SearchForm ({ handleSubmitSearchForm, handleCheckboxChange }) {
 
+    const queryData = localStorage.getItem('query')
+    const routes  = useLocation()
+
     //Стейт состояния тумблера
     const [isCheckboxOn, setIsCheckboxOn] = useState(false)
 
     //Стейт запроса
-    const [query, setQuery] = useState('')
-
-    const [inputIsEmpty, setInputIsEmpty] = useState(false)
+    const [query, setQuery] = useState(queryData && routes.pathname === '/movies' ? queryData : '')
 
     function listenCheckbox() {
         handleCheckboxChange(!isCheckboxOn)
@@ -19,22 +21,20 @@ export default function SearchForm ({ handleSubmitSearchForm, handleCheckboxChan
 
     function handleInput(evt) {
         setQuery(evt.target.value)
-        setInputIsEmpty(false)
+        if (routes.pathname === '/movies') {
+            localStorage.setItem('query', evt.target.value);
+        }
     }
 
     function handleSubmit(evt) {
         evt.preventDefault();
-        !query
-            ?
-            setInputIsEmpty(true)
-            :
             handleSubmitSearchForm(query)
     }
     
     return (
         <section className='search'>
             <div className='search__container'>
-                <form className={`${ inputIsEmpty ? 'search__form_error' : 'search__form'}`} onSubmit={handleSubmit} name='search-form'>
+                <form className='search__form' onSubmit={handleSubmit} name='search-form'>
                     <div className='search__box'>
                         <input
                             className='search__input'
@@ -48,11 +48,7 @@ export default function SearchForm ({ handleSubmitSearchForm, handleCheckboxChan
                         />
                     <button className='search__button search__button' type='submit'>Найти</button>    
                     </div>
-                    </form>
-                {
-                    inputIsEmpty &&
-                    <span className='search__input-error'>Нужно ввести данные</span>
-                }    
+                    </form>  
                 <FilterCheckbox
                     listenCheckbox={listenCheckbox}
                 />

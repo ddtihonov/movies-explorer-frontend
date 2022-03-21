@@ -154,7 +154,6 @@ useEffect(() => {
         setIsSubmitting(true)
         getMyMovies()
             .then((cardsInfo) => {
-                console.log(cardsInfo)
                 setFavoriteList(cardsInfo);
                 localStorage.setItem('likeMoviesList', JSON.stringify(cardsInfo))
                 if (!sessionStorage.baseMoviesList) { 
