@@ -4,7 +4,7 @@ import SearchForm from '../SearchForm/SearchForm';
 import './Movies.css'
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-export default function Movies({favoriteList}) {
+export default function Movies({favoriteList, handleSaveFilm, handleDeleteFilm}) {
 
     const [checkboxActive, setCheckboxActive] = useState(false)
     const [listForRender, setListForRender] = useState([])
@@ -63,6 +63,7 @@ export default function Movies({favoriteList}) {
         setQueryString(query)
     }
 
+
     
     return (
         <section className='movies'>
@@ -79,6 +80,8 @@ export default function Movies({favoriteList}) {
                 }
                 message={message}
                 favoriteList={favoriteList}
+                handleSaveFilm={ handleSaveFilm}
+                handleDeleteFilm={handleDeleteFilm}
             />
         </section>
     );

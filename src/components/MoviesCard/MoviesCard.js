@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import { useLocation } from 'react-router';
-import {saveFilm, deleteFilm} from '../../utils/MainApi';
+import {deleteFilm} from '../../utils/MainApi';
 import './MoviesCard.css';
 
-export default function MoviesCard ({ movieData, favoriteList}) {
+export default function MoviesCard ({ movieData, favoriteList, handleSaveFilm, handleDeleteFilm}) {
 
     const  routes  = useLocation()
     
@@ -11,47 +11,12 @@ export default function MoviesCard ({ movieData, favoriteList}) {
         return favoriteList.some((item) => item.movieId === movieData.id);
     }
 
+function onSaveFilm () {
+    handleSaveFilm(movieData)
+};
 
-    const updateLocalLists = (savedMovie) => {
-        
-    }
-
-    console.log(isLike())
-    
-
-// Функция добавления фильма в избранные
-function handleSaveFilm() {
-    saveFilm(movieData)
-        .then((saveMovieInfo) => {
-            let favoriteMoviesList = JSON.parse(localStorage.getItem('likeMoviesList'))
-            favoriteMoviesList = favoriteMoviesList.concat(saveMovieInfo) 
-            localStorage.setItem('likeMoviesList', JSON.stringify(favoriteMoviesList))
-        })
-        .catch((err) => {
-            console.log(`Внимание! ${err}`);
-        })
-}
-
-// Функция удаления из избранного
-function handleDeleteFilm () {
-    const id = movieData.movieId || movieData.id;
-    const movieId =
-    movieData._id || favoriteList.find((item) => item.movieId === movieData.id)._id;
-    console.log(id)
-    console.log(movieId)
-    deleteFilm (movieId)
-    .then((deleteMovieInfo) => {
-        let favoriteMoviesList = JSON.parse(localStorage.getItem('likeMoviesList'))
-        const index = favoriteMoviesList.findIndex(item => item.movieId === deleteMovieInfo.movieId)
-        favoriteMoviesList.splice(index, 1) 
-        localStorage.setItem('likeMoviesList', JSON.stringify(favoriteMoviesList))
-        })
-
-        .catch((err) => {
-            console.log(`Внимание! ${err}`);
-        })
-        .finally(() => {
-    });
+function onDeleteFilm () {
+    handleDeleteFilm(movieData)
 };
 
 
@@ -67,8 +32,6 @@ function handleDeleteFilm () {
         return `${Math.floor(movieData.duration / 60)}ч ${movieData.duration % 60}м`;
     };
 
-    //console.log(JSON.parse(localStorage.getItem('likeMoviesList')))
-
     return (
         <li className='movie'>
             <div className='movie__container'>
@@ -76,13 +39,13 @@ function handleDeleteFilm () {
                 routes.pathname === '/saved-movies' ? (
                     <button 
                     className='movie__button movie__button-save' 
-                    onClick={handleDeleteFilm}
+                    onClick={onDeleteFilm}
                     aria-label='удаление фильма'
                     ></button>
                 ) :
                 (
                     <button
-                    onClick={isLike() ?  handleDeleteFilm : handleSaveFilm} 
+                    onClick={isLike() ?  onDeleteFilm : onSaveFilm} 
                     className={`movie__button movie__button-norm ${
                         isLike() && `movie__button movie__button-like`}`}
                     aria-label='добавление фильма'

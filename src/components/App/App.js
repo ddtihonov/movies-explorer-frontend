@@ -16,7 +16,10 @@ import {
     deleteAuth, 
     getUserInfo, 
     setUserInfo, 
-    getMyMovies} from '../../utils/MainApi';
+    getMyMovies,
+    saveFilm,
+    deleteFilm,
+} from '../../utils/MainApi';
 import api from '../../utils/MoviesApi';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import { CurrentUser } from '../../context/CurrentUserContext';
@@ -151,6 +154,7 @@ useEffect(() => {
         setIsSubmitting(true)
         getMyMovies()
             .then((cardsInfo) => {
+                console.log(cardsInfo)
                 setFavoriteList(cardsInfo);
                 localStorage.setItem('likeMoviesList', JSON.stringify(cardsInfo))
                 if (!sessionStorage.baseMoviesList) { 
@@ -215,6 +219,39 @@ function handleLogout () {
         }
     }, [err])
 
+    // Функция добавления фильма в избранные
+function handleSaveFilm(movieData) {
+    setIsSubmitting(true)
+    saveFilm(movieData)
+        .then((saveMovieInfo) => {
+            setFavoriteList([...favoriteList, saveMovieInfo]);
+            let favoriteMoviesList = JSON.parse(localStorage.getItem('likeMoviesList'))
+            favoriteMoviesList = favoriteMoviesList.concat(saveMovieInfo) 
+            localStorage.setItem('likeMoviesList', JSON.stringify(favoriteMoviesList))
+        })
+        .catch((err) => setErr(err))
+        .finally(() => setIsSubmitting(false))
+}
+
+// Функция удаления из избранного
+function handleDeleteFilm (movieData) {
+    const id = movieData.movieId || movieData.id;
+    const movieId =
+    movieData._id || favoriteList.find((item) => item.movieId === movieData.id)._id;
+    console.log(id)
+    setIsSubmitting(true)
+    deleteFilm (movieId)
+    .then((deleteMovieInfo) => {
+        setFavoriteList([...favoriteList, deleteMovieInfo]);
+        let favoriteMoviesList = JSON.parse(localStorage.getItem('likeMoviesList'))
+        const index = favoriteMoviesList.findIndex(item => item.movieId === deleteMovieInfo.movieId)
+        favoriteMoviesList.splice(index, 1) 
+        localStorage.setItem('likeMoviesList', JSON.stringify(favoriteMoviesList))
+        })
+        .catch((err) => setErr(err))
+        .finally(() => setIsSubmitting(false))
+        
+};
 
 return (
 <CurrentUser.Provider value={currentUser}>
@@ -254,6 +291,8 @@ return (
                     <Movies
                         loggedIn={loggedIn}
                         favoriteList={favoriteList}
+                        handleSaveFilm={ handleSaveFilm}
+                        handleDeleteFilm={handleDeleteFilm}
                     />
                 </ProtectedRoute>    
                 }
@@ -265,6 +304,7 @@ return (
                     <SavedMovies
                         loggedIn={loggedIn}
                         favoriteList={favoriteList}
+                        handleDeleteFilm={handleDeleteFilm}
                     />
                 </ProtectedRoute>    
                 }
