@@ -30,9 +30,6 @@ import Preloader from '../Preloader/Preolader';
 
 export default function App() {
 
-
-    //console.log(JSON.parse(localStorage.getItem('likeMoviesList')))
-
     const navigate = useNavigate();
     const routes  = useLocation();
 
@@ -77,7 +74,8 @@ useEffect(() => {
                     console.log(`Внимание! ${err}`);
                 })
                 .finally(() => setIsSubmitting(false))
-    }              
+    }  
+     // eslint-disable-next-line react-hooks/exhaustive-deps           
 }, []);
 
  // Эффект запроса карточек
@@ -98,7 +96,8 @@ useEffect(() => {
             })
             .catch((err) => setErr(err))
             .finally(() => setIsSubmitting(false))
-    }, []);
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [localStorage.likeMoviesList]);
 
     
     // регистрация
@@ -238,7 +237,6 @@ function handleDeleteFilm (movieData) {
     const movieId =
     movieData._id || favoriteList.find((item) => item.movieId === movieData.id)._id;
     console.log(id)
-    setIsSubmitting(true)
     deleteFilm (movieId)
     .then((deleteMovieInfo) => {
         setFavoriteList([...favoriteList, deleteMovieInfo]);
@@ -248,8 +246,6 @@ function handleDeleteFilm (movieData) {
         localStorage.setItem('likeMoviesList', JSON.stringify(favoriteMoviesList))
         })
         .catch((err) => setErr(err))
-        .finally(() => setIsSubmitting(false))
-        
 };
 
 return (

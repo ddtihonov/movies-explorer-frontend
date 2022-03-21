@@ -22,16 +22,17 @@ useEffect(() => {
 // Эффект обработки запроса от формы поиска
 useEffect(() => {
     if (queryString) {
-        const newList = favoriteMoviesList.filter((movie) =>
+        const newList = JSON.parse(localStorage.getItem('likeMoviesList')).filter((movie) =>
             movie.nameRU.toLowerCase().indexOf(queryString.toLowerCase()) > -1)
-            newList.length ?
+            if ( newList.length) {
                 setFavoriteListForRender(newList)
-                :
-                setMessage('Ничего не найдено')
             } else {
+                setMessage('Ничего не найдено')
+                setFavoriteListForRender([])
+            }
+    } else {
                 setFavoriteListForRender(favoriteMoviesList)
             } 
-            
     favoriteMoviesList.length ? setMessage('') : setMessage('Ничего не найдено')        
     }, [queryString, favoriteMoviesList, checkboxActive])
 
@@ -55,10 +56,6 @@ const handleSubmitSearchForm = (query) => {
     setMessage('')
     setQueryString(query)
 }
-
-//console.log(favoriteMoviesList)
-//console.log(favoriteListForRender)
-//console.log(shortFavoriteListForRender)
 
     return (
         <section className='saved-movies'>

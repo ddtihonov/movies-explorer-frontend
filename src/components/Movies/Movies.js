@@ -66,10 +66,6 @@ export default function Movies({favoriteList, handleSaveFilm, handleDeleteFilm})
         setQueryString(query)
     }
 
-    console.log(queryString)
-
-
-    
     return (
         <section className='movies'>
             <SearchForm
