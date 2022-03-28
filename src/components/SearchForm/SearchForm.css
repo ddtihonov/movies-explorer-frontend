@@ -25,11 +25,22 @@
     background-color: #2F2F2F;
     display: flex;
     align-items: center;
-    margin: 0 auto 42px;
+    margin: 0 auto 45px;
+}
+
+.search__form_error{
+    width: 100%;
+    height: 46px;
+    border-radius: 40px;
+    background-color: #2F2F2F;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
 }
 
 .search__input{
     background-color: transparent;
+    width: 90%;
     border: none;
     font-size: 13px;
     line-height:17px;
@@ -63,6 +74,16 @@
     max-width: 1140px;
     border-bottom: 1px solid #424242;
     margin: 0 auto 10px;
+}
+
+.search__input-error{
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    color: #EE3465;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 38px;
 }
 
 @media (max-width: 1280px){

@@ -52,6 +52,17 @@
     text-align: right;
 }
 
+.profile__input_wrong{
+    color: #EE3465;
+}
+
+.profile__input-error{
+    text-align: center;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    color: #EE3465;
+}
 
 .profile__text{
     font-size: 11px;
@@ -88,7 +99,24 @@
     border: none;
     background-color: transparent;
     transition: 300ms;
+    cursor: pointer;
 }
+
+.profile__button:hover{
+    opacity: 0.7;
+    transition: 300ms;
+}
+
+.profile__button_disabled{
+    opacity: .3;
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
 
 .profile__button-red{
     color: #EE3465;

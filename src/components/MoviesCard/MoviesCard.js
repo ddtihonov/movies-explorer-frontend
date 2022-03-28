@@ -1,35 +1,67 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { useLocation } from 'react-router';
-import './MoviesCard.css'
+import {deleteFilm} from '../../utils/MainApi';
+import './MoviesCard.css';
 
-export default function MoviesCard ({movie}) {
+export default function MoviesCard ({ movieData, favoriteList, handleSaveFilm, handleDeleteFilm}) {
 
-    const [isSavedMovie, setIsSavedMovie] = useState(false);
     const  routes  = useLocation()
+    
+    function isLike() {
+        return favoriteList.some((item) => item.movieId === movieData.id);
+    }
+
+function onSaveFilm () {
+    handleSaveFilm(movieData)
+};
+
+function onDeleteFilm () {
+    handleDeleteFilm(movieData)
+};
+
+
+    const url =
+    movieData.image.url === undefined
+        ? movieData.image
+        : `https://api.nomoreparties.co${movieData.image.url}`;
+
+    const trailer =
+    movieData.trailer === undefined ? movieData.trailerLink : movieData.trailer;
 
     function calculateTime () {
-        return `${Math.floor(movie.duration / 60)}ч ${movie.duration % 60}м`;
+        return `${Math.floor(movieData.duration / 60)}ч ${movieData.duration % 60}м`;
     };
-
-    console.log(isSavedMovie)
 
     return (
         <li className='movie'>
             <div className='movie__container'>
-                { routes.pathname === '/movies' ? (
-                    <button onClick={() => setIsSavedMovie(isSavedMovie === false ? true : false)} className={`movie__button ${isSavedMovie ? 'movie__button-like' : 'movie__button-norm'}`} 
-                    type='button'>{`${isSavedMovie ? '' : 'Сохранить'}`}</button>
-                ) : (
-                    <button className='movie__button movie__button-save' type='button'></button>
-                )}
+            { 
+                routes.pathname === '/saved-movies' ? (
+                    <button 
+                    className='movie__button movie__button-save' 
+                    onClick={onDeleteFilm}
+                    aria-label='удаление фильма'
+                    ></button>
+                ) :
+                (
+                    <button
+                    onClick={isLike() ?  onDeleteFilm : onSaveFilm} 
+                    className={`movie__button movie__button-norm ${
+                        isLike() && `movie__button movie__button-like`}`}
+                    aria-label='добавление фильма'
+                    >{isLike() ? '' : 'Сохранить' }</button> 
+                )
+            }
+                <a className='movie__link' href={trailer} target="_blank" rel="noreferrer">
                 <img
-                    src={`https://api.nomoreparties.co/${movie.image.formats.thumbnail.url}`}
-                alt={movie.nameRU}
+                    src={url}
+                alt={movieData.nameRU}
                 className='movie__image'
                 />
+                </a>
             </div>
             <div className='movie__box'>
-                <h2 className='movie__title'>{movie.nameRU}</h2>
+                <h2 className='movie__title'>{movieData.nameRU}</h2>
                 <p className='movie__text'>{calculateTime()}</p>
             </div>
         </li>

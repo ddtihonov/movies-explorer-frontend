@@ -1,14 +1,17 @@
 import React from 'react';
 import logo from '../../images/logo.svg';
-import { Link } from 'react-router-dom'; 
+import { Link, useLocation } from 'react-router-dom'; 
+
 
 import Navigation from '../Navigation/Navigation';
 import './Header.css'
 
 export default function Header({loggedIn}) {
     
+    const routes  = useLocation(); 
+
     return (
-    <header className={`${loggedIn ? 'header-black' : 'header'}`}>
+    <header className={`${!loggedIn || routes.pathname === '/' ? 'header' : 'header-black'}`}>
         <div className='header__container'>
             <Link to='/' className='header__link-logo header__hover' target='_self'>
                 <img className='header__image' src={logo} alt='смайл'/>
